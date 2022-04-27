@@ -6,9 +6,11 @@ using namespace std;
 void Date::setYear(const size_t year) {
 	this->year = year;
 }
+
 void Date::setMonth(const size_t month) {
 	this->month;
 }
+
 void Date::setDay(const size_t day) {
 	this->day = day;
 }

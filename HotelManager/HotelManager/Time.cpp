@@ -2,7 +2,7 @@
 #include<iostream>
 using namespace std;
 
-Time::Time(size_t hours, size_t mins, size_t secs) {
+Time::Time(size_t hours = 0, size_t mins = 0, size_t secs = 0) {
 	setHours(hours);
 	setMins(mins);
 	setSecs(secs);
@@ -61,7 +61,7 @@ ostream& operator<<(ostream& out, const Time& time) {
 }
 
 istream& operator>>(istream& in, Time& time) {
-	const char dots = ':';
+	char dots = ':';
 	size_t hours, mins, secs;
 	in.read((char*)&hours, sizeof(hours));
 	in.read((char*)&dots, sizeof(dots));
