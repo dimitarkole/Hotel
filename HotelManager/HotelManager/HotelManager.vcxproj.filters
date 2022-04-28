@@ -30,6 +30,12 @@
     <ClCompile Include="Reservation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ReservationsService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomsService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Room.h">
@@ -44,5 +50,14 @@
     <ClInclude Include="Reservation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ReservationsService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomsService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

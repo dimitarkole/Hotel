@@ -1,4 +1,5 @@
 #include<iostream>
+#include<fstream>
 #include<cstring>
 
 #include "Reservation.h"
@@ -9,27 +10,27 @@ const size_t MAX_GOST_NAME_LEN = 1024, MAX_DESCRIPTION_LEN = 8 * 1024;
 
 void Reservation::free() {
 	delete[] gostName;
-	delete[] descripton;
+	delete[] description;
 }
 
 void Reservation::copyFrom(const Reservation& other) {
 	gostName = nullptr;
-	descripton = nullptr;
+	description = nullptr;
 	from = other.from;
 	to = other.from;
 	roomId = other.roomId;
 	setGostName(other.gostName);
-	setDescripton(other.descripton);
+	setDescription(other.description);
 }
 
-Reservation::Reservation(Date from, Date to, char* gostName, char* desctiption) {
-	gostName = nullptr;
-	descripton = nullptr;
-	from = from;
-	to = from;
-	roomId = roomId;
+Reservation::Reservation(size_t roomId, Date from, Date to, char* gostName, char* desctiption) {
+	this->gostName = nullptr;
+	this->description = nullptr;
+	this->from = from;
+	this->to = from;
+	this->roomId = roomId;
 	setGostName(gostName);
-	setDescripton(descripton);
+	setDescription(description);
 }
 
 Reservation::Reservation(const Reservation& other) {
@@ -73,14 +74,14 @@ void Reservation::setGostName(const char* gostName) {
 	}
 }
 
-void Reservation::setDescripton(const char* descripton) {
-	if (this->descripton != descripton)
+void Reservation::setDescription(const char* description) {
+	if (this->description != description)
 	{
-		delete[] this->descripton;
-		descriptonLen = strlen(descripton);
-		this->descripton = new char[descriptonLen + 1];
-		strcpy(this->descripton, descripton);
-		this->descripton[descriptonLen] = 0;
+		delete[] this->description;
+		descriptionLen = strlen(description);
+		this->description = new char[descriptionLen + 1];
+		strcpy(this->description, description);
+		this->description[descriptionLen] = 0;
 	}
 }
 
@@ -104,18 +105,18 @@ const size_t Reservation::getGostNameLen() const {
 	return gostNameLen;
 }
 
-const char* Reservation::getDescripton() const {
-	return descripton;
+const char* Reservation::getDescription() const {
+	return description;
 }
 
-const size_t Reservation::getDescriptonLen() const {
-	return descriptonLen;
+const size_t Reservation::getDescriptionLen() const {
+	return descriptionLen;
 }
 
 ostream& operator<<(ostream& out, const Reservation& reservation) {
 	out << reservation.roomId << " " << reservation.gostName << " ";
 	out << reservation.from << " " << reservation.to << " ";
-	out << reservation.descripton;
+	out << reservation.description;
 	return out;
 }
 
@@ -125,8 +126,8 @@ ofstream& operator<<(ofstream& out, const Reservation& reservation) {
 	out.write((const char*)reservation.gostName, sizeof(reservation.gostName));
 	out.write((const char*)&reservation.from, sizeof(reservation.from));
 	out.write((const char*)&reservation.to, sizeof(reservation.to));
-	out.write((const char*)&reservation.descriptonLen, sizeof(reservation.descriptonLen));
-	out.write((const char*)reservation.descripton, sizeof(reservation.descripton));
+	out.write((const char*)&reservation.descriptionLen, sizeof(reservation.descriptionLen));
+	out.write((const char*)reservation.description, sizeof(reservation.description));
 	return out;
 }
 
@@ -157,13 +158,13 @@ ifstream& operator>>(ifstream& in, Reservation& reservation) {
 	reservation.setGostName(gostName);
 	in.read((char*)&reservation.from, sizeof(reservation.from));
 	in.read((char*)&reservation.to, sizeof(reservation.to));
-	size_t descriptonLen;
-	in.read((char*)&descriptonLen, sizeof(descriptonLen));
-	char* descripton = new char[descriptonLen + 1];
-	in.read((char*)descripton, descriptonLen);
-	descripton[descriptonLen] = 0;
-	reservation.setDescripton(descripton);
+	size_t descriptionLen;
+	in.read((char*)&descriptionLen, sizeof(descriptionLen));
+	char* description = new char[descriptionLen + 1];
+	in.read((char*)description, descriptionLen);
+	description[descriptionLen] = 0;
+	reservation.setDescription(description);
 	delete[] gostName;
-	delete[] descripton;
+	delete[] description;
 	return in;
 }

@@ -13,5 +13,10 @@ public:
 
 	void setId(const size_t id);
 	void setBedsCount(const size_t bedsCount);
+
+	friend ostream& operator<<(ostream& out, const Room& room);
+	friend ofstream& operator<<(ofstream& out, const Room& room);
+	friend istream& operator>>(istream& in, Room& room);
+	friend ifstream& operator>>(ifstream& in, Room& room);
 };
 
