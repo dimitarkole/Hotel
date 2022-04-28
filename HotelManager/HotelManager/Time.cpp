@@ -1,5 +1,6 @@
 #include "Time.h"
 #include<iostream>
+#include<fstream>
 using namespace std;
 
 Time::Time(size_t hours = 0, size_t mins = 0, size_t secs = 0) {
