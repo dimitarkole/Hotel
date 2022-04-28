@@ -8,10 +8,6 @@ Time::Time(size_t hours = 0, size_t mins = 0, size_t secs = 0) {
 	setSecs(secs);
 }
 
-/*Time::Time(size_t secs) {
-	setSecs(secs);
-}*/
-
 void Time::setHours(size_t hours) {
 	this->hours = hours % 24;
 }
@@ -50,7 +46,7 @@ size_t Time::convertToSec() const {
 	return hours * 3600 + mins * 60 + secs;
 }
 
-ostream& operator<<(ostream& out, const Time& time) {
+ofstream& operator<<(ofstream& out, const Time& time) {
 	const char dots = ':';
 	out.write((const char*)&time.hours, sizeof(time.hours));
 	out.write((const char*)&dots, sizeof(dots));
@@ -60,7 +56,13 @@ ostream& operator<<(ostream& out, const Time& time) {
 	return out;
 }
 
-istream& operator>>(istream& in, Time& time) {
+ostream& operator<<(ostream& out, const Time& time) {
+	const char dots = ':';
+	out << time.hours << dots<< time.mins << dots<< time.secs;
+	return out;
+}
+
+ifstream& operator>>(ifstream& in, Time& time) {
 	char dots = ':';
 	size_t hours, mins, secs;
 	in.read((char*)&hours, sizeof(hours));
@@ -72,4 +74,24 @@ istream& operator>>(istream& in, Time& time) {
 	time.setMins(mins);
 	time.setSecs(secs);
 	return in;
+}
+
+istream& operator>>(istream& in, Time& time) {
+	char dots = ':';
+	size_t hours, mins, secs;
+	in >> hours >> mins >> secs;
+	time.setHours(hours);
+	time.setMins(mins);
+	time.setSecs(secs);
+	return in;
+}
+
+bool Time::operator==(const Time& other) {
+	return this->secs == other.secs
+		&& this->mins == other.mins
+		&& this->hours == other.hours;
+}
+
+bool Time::operator!=(const Time& other) {
+	return !(*this == other);
 }
