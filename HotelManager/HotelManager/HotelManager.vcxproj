@@ -141,11 +141,13 @@
   <ItemGroup>
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="HotelManager.cpp" />
+    <ClCompile Include="Reservation.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Date.h" />
+    <ClInclude Include="Reservation.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="Time.h" />
   </ItemGroup>

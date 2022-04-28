@@ -19,6 +19,22 @@ void Date::setTime(const Time& time) {
 	this->time = time;
 }
 
+size_t Date::getYear() const {
+	return year;
+}
+
+size_t Date::getMonth() const {
+	return month;
+}
+
+size_t Date::getDay() const {
+	return day;
+}
+
+const Time& Date::getTime() const {
+	return time;
+}
+
 Date::Date(const size_t year = 0, const size_t month = 0, const size_t day = 0,
 		const size_t hours = 0, const size_t mins = 0, const size_t secs = 0) {
 	this->year = year;
@@ -29,7 +45,12 @@ Date::Date(const size_t year = 0, const size_t month = 0, const size_t day = 0,
 	this->time.setSecs(secs);
 }
 
-ostream& operator<<(ostream& out, const Date& date) {
+ostream& operator<<(ostream& out, const Date& date) { // for console
+	out << date.day << "/"<< date.month <<"/" << date.year << " "<< date.time;
+	return out;
+}
+
+ofstream& operator<<(ofstream& out, const Date& date) { // for file
 	const char slash = '/', whiteSpace = ' ';
 	out.write((const char*)&date.day, sizeof(date.day));
 	out.write((const char*)&slash, sizeof(slash));
@@ -41,7 +62,7 @@ ostream& operator<<(ostream& out, const Date& date) {
 	return out;
 }
 
-istream& operator>>(istream& in, Date& date) {
+ifstream& operator>>(ifstream& in, Date& date) {
 	char slash = '/', whiteSpace = ' ';
 	size_t day, month, year;
 	in.read((char*)&day, sizeof(day));
@@ -57,4 +78,26 @@ istream& operator>>(istream& in, Date& date) {
 	in >> time;
 	date.setTime(time);
 	return in;
+}
+
+istream& operator>>(istream& in, Date& date) { // for console
+	size_t day, month, year;
+	Time time;
+	in >> day >> month >> year >> time;
+	date.setDay(day);
+	date.setMonth(month);
+	date.setYear(year);
+	date.setTime(time);
+	return in;
+}
+
+bool Date::operator==(const Date& other) {
+	return this->day == other.day
+		&& this->month == other.month
+		&& this->year == other.year
+		&& this->time == other.time;
+}
+
+bool Date::operator!=(const Date& other) {
+	return ! (*this == other);
 }

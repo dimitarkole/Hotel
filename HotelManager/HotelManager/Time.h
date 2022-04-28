@@ -21,8 +21,13 @@ public:
 	size_t getMins();
 	size_t getSecs();
 
+	bool operator==(const Time& other);
+	bool operator!=(const Time& other);
+
 	friend ostream& operator<<(ostream& out, const Time& time);
-	friend istream& operator>>(istream& in, const Time& time);
+	friend ofstream& operator<<(ofstream& out, const Time& time);
+	friend istream& operator>>(istream& in, Time& time);
+	friend ifstream& operator>>(ifstream& in, Time& time);
 };
 
 #endif
