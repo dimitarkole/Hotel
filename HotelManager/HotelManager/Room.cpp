@@ -1,3 +1,4 @@
+#pragma warning(disable:4996)
 #include<iostream>
 #include<fstream>
 #include "Room.h"
@@ -49,8 +50,8 @@ istream& operator>>(istream& in, Room& room) {
 
 ifstream& operator>>(ifstream& in, Room& room) {
 	size_t roomId, bedsCount;
-	in.read((char*)roomId, sizeof(roomId));
-	in.read((char*)bedsCount, sizeof(bedsCount));
+	in.read((char*)&roomId, sizeof(roomId));
+	in.read((char*)&bedsCount, sizeof(bedsCount));
 	room.setBedsCount(bedsCount);
 	room.setId(roomId);
 	return in;

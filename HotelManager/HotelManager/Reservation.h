@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(disable:4996)
 #include "Date.h"
 class Reservation
 {
@@ -10,6 +11,7 @@ private:
 	void free();
 	void copyFrom(const Reservation& other);
 public:	
+	Reservation();
 	Reservation(size_t roomId, Date from, Date to, char* gostName, char* desctiption);
 	Reservation(const Reservation& other);
 	~Reservation();
