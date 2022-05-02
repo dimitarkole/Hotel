@@ -1,3 +1,4 @@
+#pragma warning(disable:4996)
 #include "Date.h"
 #include "Time.h"
 #include<fstream>
@@ -36,8 +37,7 @@ const Time& Date::getTime() const {
 	return time;
 }
 
-Date::Date(const size_t year = 0, const size_t month = 0, const size_t day = 0,
-		const size_t hours = 0, const size_t mins = 0, const size_t secs = 0) {
+Date::Date(const size_t year, const size_t month, const size_t day, const size_t hours,	const size_t mins, const size_t secs) {
 	this->year = year;
 	this->month = month;
 	this->day = day;

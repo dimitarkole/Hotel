@@ -1,3 +1,4 @@
+#pragma warning(disable:4996)
 #include<iostream>
 #include<fstream>
 #include<cstring>
@@ -21,6 +22,16 @@ void Reservation::copyFrom(const Reservation& other) {
 	roomId = other.roomId;
 	setGostName(other.gostName);
 	setDescription(other.description);
+}
+
+Reservation::Reservation() {
+	this->gostName = nullptr;
+	this->description = nullptr;
+	this->from = Date();
+	this->to = Date();
+	this->roomId = 0;
+	setGostName("");
+	setDescription("");
 }
 
 Reservation::Reservation(size_t roomId, Date from, Date to, char* gostName, char* desctiption) {

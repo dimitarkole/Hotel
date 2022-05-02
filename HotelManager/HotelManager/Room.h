@@ -1,4 +1,8 @@
 #pragma once
+#pragma warning(disable:4996)
+#include<iostream>
+#include<fstream>
+using namespace std;
 class Room
 {
 private:

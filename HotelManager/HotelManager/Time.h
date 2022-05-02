@@ -1,3 +1,4 @@
+#pragma warning(disable:4996)
 #ifndef TIME_H
 #define TIME_H
 #pragma once

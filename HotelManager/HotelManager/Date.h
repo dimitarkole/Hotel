@@ -1,3 +1,4 @@
+#pragma warning(disable:4996)
 #pragma once
 #include "Time.h"
 

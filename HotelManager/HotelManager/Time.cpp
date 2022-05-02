@@ -1,9 +1,10 @@
+#pragma warning(disable:4996)
 #include "Time.h"
 #include<iostream>
 #include<fstream>
 using namespace std;
 
-Time::Time(size_t hours = 0, size_t mins = 0, size_t secs = 0) {
+Time::Time(size_t hours, size_t mins, size_t secs) {
 	setHours(hours);
 	setMins(mins);
 	setSecs(secs);
