@@ -4,8 +4,15 @@
 #include<fstream>
 using namespace std;
 
-void ReservationsController::readFromFile(char* fileName) {
-	ifstream file(fileName, ios::binary);
+const char* RESERVATION_FILE_NAME = "reservations.dat";
+
+ReservationsController::ReservationsController()
+{
+	readFromFile();
+}
+
+void ReservationsController::readFromFile() {
+	ifstream file(RESERVATION_FILE_NAME, ios::binary);
 	if (!file.is_open()) {
 		return;
 	}
@@ -24,8 +31,8 @@ void ReservationsController::readFromConsole() {
 	cin >> reservationsService;
 }
 
-void ReservationsController::writeToFile(char* fileName) const {
-	ofstream file(fileName, ios::binary);
+void ReservationsController::writeToFile() const {
+	ofstream file(RESERVATION_FILE_NAME, ios::binary);
 	if (!file.is_open()) {
 		return;
 	}
@@ -39,6 +46,6 @@ void ReservationsController::writeToFile(char* fileName) const {
 	{
 	}
 }
-void ReservationsController::writeToConsole(char* fileName) const {
+void ReservationsController::writeToConsole() const {
 	cout << reservationsService;
 }

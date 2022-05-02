@@ -43,7 +43,7 @@ Date::Date(const size_t year, const size_t month, const size_t day, const size_t
 	this->day = day;
 	this->time.setHours(hours);
 	this->time.setMins(mins);
-	this->time.setSecs(secs);
+	// this->time.setSecs(secs);
 }
 
 ostream& operator<<(ostream& out, const Date& date) { // for console

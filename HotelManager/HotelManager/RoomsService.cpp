@@ -124,12 +124,14 @@ ofstream& operator<<(ofstream& out, const RoomsService& roomsService) {
 
 istream& operator>>(istream& in, RoomsService& roomsService) {
 	size_t roomsCount;
+	cout << "Input rooms count"<< endl;
 	in >> roomsCount;
 	for (size_t i = 0; i < roomsCount; i++)
 	{
-		in>> roomsService[i];
-		roomsService.roomsCount++;
-		roomsService.resize();
+		cout << "Input room "<< i + 1 <<" data (id, count of beds)" << endl;
+		Room room;
+		in>> room;
+		roomsService.addRoom(room);
 	}
 
 	return in;

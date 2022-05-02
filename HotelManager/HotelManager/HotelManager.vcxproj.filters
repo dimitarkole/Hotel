@@ -36,7 +36,7 @@
     <ClCompile Include="RoomsService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RoomController.cpp">
+    <ClCompile Include="RoomsController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ReservationsController.cpp">
@@ -62,7 +62,7 @@
     <ClInclude Include="RoomsService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RoomController.h">
+    <ClInclude Include="RoomsController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ReservationsController.h">

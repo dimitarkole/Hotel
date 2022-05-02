@@ -6,11 +6,12 @@ class ReservationsController
 private:
 	ReservationsService reservationsService;
 public:
+	ReservationsController();
 	// void add();
-	void readFromFile(char* fileName);
+	void readFromFile();
 	void readFromConsole();
-	void writeToFile(char* fileName) const;
-	void writeToConsole(char* fileName) const;
+	void writeToFile() const;
+	void writeToConsole() const;
 	// void remove(size_t id);
 	// void edit(size_t id, Room& room);
 };
