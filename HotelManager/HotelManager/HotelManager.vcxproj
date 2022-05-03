@@ -161,6 +161,8 @@
     <ClInclude Include="Time.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\reservations.dat" />
+    <None Include="Data\rooms.dat" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
