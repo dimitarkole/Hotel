@@ -8,14 +8,17 @@ class Room
 private:
 	size_t id;
 	size_t bedsCount;
+
+	static size_t counter;
+	void setId(const size_t id);
 public:
 	Room();
+	Room(const size_t bedsCount);
 	Room(const size_t id, const size_t bedsCount);
 
 	size_t getId() const;
 	size_t getBedsCount() const;
 
-	void setId(const size_t id);
 	void setBedsCount(const size_t bedsCount);
 
 	friend ostream& operator<<(ostream& out, const Room& room);

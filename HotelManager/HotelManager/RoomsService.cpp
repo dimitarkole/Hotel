@@ -4,6 +4,7 @@
 #include<fstream>
 #include<iostream>
 using namespace std;
+
 const size_t MIN_CAPACITY = 8;
 
 void RoomsService::free() {
@@ -21,7 +22,7 @@ void RoomsService::copyFrom(const RoomsService& other) {
 }
 
 void RoomsService::resize() {
-	size_t newCapacity = 3 * capacity / 4 < roomsCount ? capacity * 2 : capacity / 2;
+	size_t newCapacity = 3*capacity / 4 <= roomsCount ? capacity * 2 : capacity / 2;
 	if (newCapacity >= MIN_CAPACITY)
 	{
 		Room* newRooms = new Room[newCapacity];
@@ -91,9 +92,9 @@ const size_t RoomsService::getRoomsCount() const {
 }
 	
 void RoomsService::addRoom(const Room& room) {
+	resize();
 	rooms[roomsCount] = room;
 	roomsCount++;
-	resize();
 	//cout << "This element is added successful!" << endl;
 }
 
@@ -128,9 +129,9 @@ istream& operator>>(istream& in, RoomsService& roomsService) {
 	in >> roomsCount;
 	for (size_t i = 0; i < roomsCount; i++)
 	{
-		cout << "Input room "<< i + 1 <<" data (id, count of beds)" << endl;
+		cout << "Input count of beds of room "<< i + 1 << endl;
 		Room room;
-		in>> room;
+		in >> room;
 		roomsService.addRoom(room);
 	}
 
@@ -143,11 +144,7 @@ ifstream& operator>>(ifstream& in, RoomsService& roomsService) {
 	for (size_t i = 0; i < roomsCount; i++)
 	{
 		Room room;
-		size_t roomId, bedsCount;
-		in.read((char*)&roomId, sizeof(roomId));
-		in.read((char*)&bedsCount, sizeof(bedsCount));
-		room.setBedsCount(bedsCount);
-		room.setId(roomId);
+		in >> room;
 		roomsService.addRoom(room);
 	}
 

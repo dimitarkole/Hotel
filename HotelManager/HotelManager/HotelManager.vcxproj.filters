@@ -77,9 +77,6 @@
     <ClInclude Include="ReservationsService.h">
       <Filter>Header Files\Services</Filter>
     </ClInclude>
-    <ClInclude Include="Room.h">
-      <Filter>Header Files\Models</Filter>
-    </ClInclude>
     <ClInclude Include="RoomsController.h">
       <Filter>Header Files\Contreollers</Filter>
     </ClInclude>
@@ -87,6 +84,9 @@
       <Filter>Header Files\Services</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
       <Filter>Header Files\Models</Filter>
     </ClInclude>
   </ItemGroup>

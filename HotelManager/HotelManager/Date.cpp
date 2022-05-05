@@ -92,13 +92,45 @@ istream& operator>>(istream& in, Date& date) { // for console
 	return in;
 }
 
-bool Date::operator==(const Date& other) {
+bool Date::operator==(const Date& other) const {
 	return this->day == other.day
 		&& this->month == other.month
 		&& this->year == other.year
 		&& this->time == other.time;
 }
 
-bool Date::operator!=(const Date& other) {
+bool Date::operator!=(const Date& other) const {
 	return ! (*this == other);
+}
+
+bool Date::operator>=(const Date& other) const {
+	if (year > other.year) return true;
+	else if(year == other.year){
+		if (month > other.month) return true;
+		else if (month == other.month) {
+			if (day > other.day) return true;
+			else if(day == other.day)
+			{
+				return time >= other.time;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool Date::operator<=(const Date& other) const {
+	if (year < other.year) return true;
+	else if (year == other.year) {
+		if (month < other.month) return true;
+		else if (month == other.month) {
+			if (day < other.day) return true;
+			else if (day == other.day)
+			{
+				return time <= other.time;
+			}
+		}
+	}
+
+	return false;
 }

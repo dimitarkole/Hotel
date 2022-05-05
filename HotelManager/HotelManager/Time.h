@@ -22,8 +22,10 @@ public:
 	size_t getMins();
 	// size_t getSecs();
 
-	bool operator==(const Time& other);
-	bool operator!=(const Time& other);
+	bool operator==(const Time& other) const;
+	bool operator!=(const Time& other) const;
+	bool operator>=(const Time& other) const;
+	bool operator<=(const Time& other) const;
 
 	friend ostream& operator<<(ostream& out, const Time& time);
 	friend ofstream& operator<<(ofstream& out, const Time& time);

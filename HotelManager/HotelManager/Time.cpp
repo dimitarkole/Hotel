@@ -88,12 +88,30 @@ istream& operator>>(istream& in, Time& time) {
 	return in;
 }
 
-bool Time::operator==(const Time& other) {
+bool Time::operator==(const Time& other) const {
 	return this->mins == other.mins
 		&& this->hours == other.hours;
 		// && this->secs == other.secs;
 }
 
-bool Time::operator!=(const Time& other) {
+bool Time::operator!=(const Time& other) const {
 	return !(*this == other);
+}
+
+bool Time::operator<=(const Time& other) const {
+	if (hours < other.hours) return true;
+	else if (hours == other.hours) {
+		if (mins <= other.mins) return true;
+	}
+
+	return false;
+}
+
+bool Time::operator>=(const Time& other) const {
+	if (hours > other.hours) return true;
+	else if (hours == other.hours) {
+		if (mins >= other.mins) return true;
+	}
+
+	return false;
 }
