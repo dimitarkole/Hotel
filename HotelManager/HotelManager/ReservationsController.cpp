@@ -4,8 +4,15 @@
 #include<fstream>
 using namespace std;
 
-void ReservationsController::readFromFile(char* fileName) {
-	ifstream file(fileName, ios::binary);
+const char* RESERVATION_FILE_NAME = "Data/reservations.dat";
+
+ReservationsController::ReservationsController()
+{
+	readFromFile();
+}
+
+void ReservationsController::readFromFile() {
+	ifstream file(RESERVATION_FILE_NAME, ios::binary);
 	if (!file.is_open()) {
 		return;
 	}
@@ -24,8 +31,8 @@ void ReservationsController::readFromConsole() {
 	cin >> reservationsService;
 }
 
-void ReservationsController::writeToFile(char* fileName) const {
-	ofstream file(fileName, ios::binary);
+void ReservationsController::writeToFile() const {
+	ofstream file(RESERVATION_FILE_NAME, ios::binary);
 	if (!file.is_open()) {
 		return;
 	}
@@ -39,6 +46,42 @@ void ReservationsController::writeToFile(char* fileName) const {
 	{
 	}
 }
-void ReservationsController::writeToConsole(char* fileName) const {
+
+void ReservationsController::writeToConsole() const {
 	cout << reservationsService;
+}
+
+void ReservationsController::viewFreeRoom(const Room* rooms, const size_t roomsCount) const{
+	size_t freeRoomsCount = 0;
+	cout << "Input date:" << endl;
+	Date date(2022, 5, 4, 5, 4);
+	// cin >> date;
+	Room* freeRooms = new Room[freeRoomsCount];
+	for (size_t i = 0; i < roomsCount; i++)
+	{
+		if (reservationsService.isRoomFree(rooms[i].getId(), date))
+		{
+			Room* newFreeRooms = new Room[freeRoomsCount + 1];
+			for (size_t j = 0; j < freeRoomsCount; j++)
+			{
+				newFreeRooms[j] = freeRooms[j];
+			}
+
+			newFreeRooms[freeRoomsCount] = rooms[i];
+			delete[] freeRooms;
+			freeRooms = newFreeRooms;
+			freeRoomsCount++;
+		}
+	}
+
+	printFreeRoom(freeRooms, freeRoomsCount, date);
+	delete[] freeRooms;
+}
+
+void ReservationsController::printFreeRoom(const Room* freeRooms, const size_t freeRoomsCount, const Date& date) const{
+	cout << "Count of free rooms: " << freeRoomsCount << " for "<< date << endl;
+	for (size_t i = 0; i < freeRoomsCount; i++)
+	{
+		cout << freeRooms[i] << endl;
+	}
 }

@@ -23,6 +23,7 @@ public:
 	const size_t getCapacity() const;
 	const size_t getReservationsCount() const;
 
+	bool isRoomFree(size_t roomId, const Date& date) const;
 	void addReservation(const Reservation& reservation);
 
 	friend ostream& operator<<(ostream& out, const ReservationsService& reservation);

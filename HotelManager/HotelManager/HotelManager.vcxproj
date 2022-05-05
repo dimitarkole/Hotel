@@ -146,7 +146,7 @@
     <ClCompile Include="ReservationsController.cpp" />
     <ClCompile Include="ReservationsService.cpp" />
     <ClCompile Include="Room.cpp" />
-    <ClCompile Include="RoomController.cpp" />
+    <ClCompile Include="RoomsController.cpp" />
     <ClCompile Include="RoomsService.cpp" />
     <ClCompile Include="Time.cpp" />
   </ItemGroup>
@@ -156,11 +156,13 @@
     <ClInclude Include="ReservationsController.h" />
     <ClInclude Include="ReservationsService.h" />
     <ClInclude Include="Room.h" />
-    <ClInclude Include="RoomController.h" />
+    <ClInclude Include="RoomsController.h" />
     <ClInclude Include="RoomsService.h" />
     <ClInclude Include="Time.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\reservations.dat" />
+    <None Include="Data\rooms.dat" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

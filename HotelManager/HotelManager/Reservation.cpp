@@ -34,7 +34,7 @@ Reservation::Reservation() {
 	setDescription("");
 }
 
-Reservation::Reservation(size_t roomId, Date from, Date to, char* gostName, char* desctiption) {
+Reservation::Reservation(size_t roomId, Date from, Date to, char* gostName, char* description) {
 	this->gostName = nullptr;
 	this->description = nullptr;
 	this->from = from;
@@ -125,18 +125,21 @@ const size_t Reservation::getDescriptionLen() const {
 }
 
 ostream& operator<<(ostream& out, const Reservation& reservation) {
-	out << reservation.roomId << " " << reservation.gostName << " ";
-	out << reservation.from << " " << reservation.to << " ";
+	out << "room id: " << reservation.roomId << " Gost name:" << reservation.gostName << " From:";
+	out << reservation.from << " To:" << reservation.to << " Description";
 	out << reservation.description;
 	return out;
 }
 
 ofstream& operator<<(ofstream& out, const Reservation& reservation) {
 	out.write((const char*)&reservation.roomId, sizeof(reservation.roomId));
+	cout << "gostNameLen: " << reservation.gostNameLen << endl;
 	out.write((const char*)&reservation.gostNameLen, sizeof(reservation.gostNameLen));
 	out.write((const char*)reservation.gostName, sizeof(reservation.gostName));
-	out.write((const char*)&reservation.from, sizeof(reservation.from));
-	out.write((const char*)&reservation.to, sizeof(reservation.to));
+	out << reservation.from;
+	out<< reservation.to;
+	/*out.write((const char*)&reservation.from, sizeof(reservation.from));
+	out.write((const char*)&reservation.to, sizeof(reservation.to));*/
 	out.write((const char*)&reservation.descriptionLen, sizeof(reservation.descriptionLen));
 	out.write((const char*)reservation.description, sizeof(reservation.description));
 	return out;
@@ -167,8 +170,8 @@ ifstream& operator>>(ifstream& in, Reservation& reservation) {
 	in.read((char*)gostName, gostNameLen);
 	gostName[gostNameLen] = 0;
 	reservation.setGostName(gostName);
-	in.read((char*)&reservation.from, sizeof(reservation.from));
-	in.read((char*)&reservation.to, sizeof(reservation.to));
+	in >> reservation.from;
+	in >> reservation.to;
 	size_t descriptionLen;
 	in.read((char*)&descriptionLen, sizeof(descriptionLen));
 	char* description = new char[descriptionLen + 1];

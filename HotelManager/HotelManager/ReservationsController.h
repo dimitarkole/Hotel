@@ -1,16 +1,22 @@
 #pragma once
 #pragma warning(disable:4996)
+
 #include "ReservationsService.h"
+#include "RoomsService.h"
+#include "RoomsController.h"
+
 class ReservationsController
 {
 private:
 	ReservationsService reservationsService;
+	
+	void readFromFile();
+	void printFreeRoom(const Room* freeRooms, const size_t freeRoomsCount, const Date& date) const;
 public:
-	// void add();
-	void readFromFile(char* fileName);
+	ReservationsController();
+	
 	void readFromConsole();
-	void writeToFile(char* fileName) const;
-	void writeToConsole(char* fileName) const;
-	// void remove(size_t id);
-	// void edit(size_t id, Room& room);
+	void writeToFile() const;
+	void writeToConsole() const;
+	void viewFreeRoom(const Room* rooms, const size_t roomsCount) const;
 };

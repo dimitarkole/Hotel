@@ -43,7 +43,7 @@ Date::Date(const size_t year, const size_t month, const size_t day, const size_t
 	this->day = day;
 	this->time.setHours(hours);
 	this->time.setMins(mins);
-	this->time.setSecs(secs);
+	// this->time.setSecs(secs);
 }
 
 ostream& operator<<(ostream& out, const Date& date) { // for console
@@ -92,13 +92,45 @@ istream& operator>>(istream& in, Date& date) { // for console
 	return in;
 }
 
-bool Date::operator==(const Date& other) {
+bool Date::operator==(const Date& other) const {
 	return this->day == other.day
 		&& this->month == other.month
 		&& this->year == other.year
 		&& this->time == other.time;
 }
 
-bool Date::operator!=(const Date& other) {
+bool Date::operator!=(const Date& other) const {
 	return ! (*this == other);
+}
+
+bool Date::operator>=(const Date& other) const {
+	if (year > other.year) return true;
+	else if(year == other.year){
+		if (month > other.month) return true;
+		else if (month == other.month) {
+			if (day > other.day) return true;
+			else if(day == other.day)
+			{
+				return time >= other.time;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool Date::operator<=(const Date& other) const {
+	if (year < other.year) return true;
+	else if (year == other.year) {
+		if (month < other.month) return true;
+		else if (month == other.month) {
+			if (day < other.day) return true;
+			else if (day == other.day)
+			{
+				return time <= other.time;
+			}
+		}
+	}
+
+	return false;
 }
