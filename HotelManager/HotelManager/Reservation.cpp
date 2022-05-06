@@ -126,14 +126,13 @@ const size_t Reservation::getDescriptionLen() const {
 
 ostream& operator<<(ostream& out, const Reservation& reservation) {
 	out << "room id: " << reservation.roomId << " Gost name:" << reservation.gostName << " From:";
-	out << reservation.from << " To:" << reservation.to << " Description";
+	out << reservation.from << " To:" << reservation.to << " Description: ";
 	out << reservation.description;
 	return out;
 }
 
 ofstream& operator<<(ofstream& out, const Reservation& reservation) {
 	out.write((const char*)&reservation.roomId, sizeof(reservation.roomId));
-	cout << "gostNameLen: " << reservation.gostNameLen << endl;
 	out.write((const char*)&reservation.gostNameLen, sizeof(reservation.gostNameLen));
 	out.write((const char*)reservation.gostName, sizeof(reservation.gostName));
 	out << reservation.from;
@@ -146,17 +145,23 @@ ofstream& operator<<(ofstream& out, const Reservation& reservation) {
 }
 
 istream& operator>>(istream& in, Reservation& reservation) {
+	cout << "Input roomId:" << endl;
 	in >> reservation.roomId;
+	char newLine;
 	char* gostName = new char[MAX_GOST_NAME_LEN + 1];
 	in.getline(gostName, MAX_GOST_NAME_LEN);
-	gostName[MAX_GOST_NAME_LEN] = 0;
+	in.get(newLine);
+	cout << "Input gost name:" << endl;
 	reservation.setGostName(gostName);
+	cout << "Input from date:" << endl;
 	in >> reservation.from;
+	cout << "Input to date:" << endl;
 	in >> reservation.to;
+	in.get(newLine);
+	cout << "Input to description:" << endl;
 	char* description = new char[MAX_DESCRIPTION_LEN + 1];
 	in.getline(description, MAX_DESCRIPTION_LEN);
-	description[MAX_DESCRIPTION_LEN] = 0;
-	reservation.setGostName(description);
+	reservation.setDescription(description);
 	delete[] gostName;
 	delete[] description;
 	return in;

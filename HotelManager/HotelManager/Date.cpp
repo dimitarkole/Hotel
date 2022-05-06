@@ -5,20 +5,78 @@
 #include<iostream>
 using namespace std;
 
-void Date::setYear(const size_t year) {
+bool Date::isLeapYear() const
+{
+	if (year <= 1916)
+		return year % 4 == 0;
+	return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+}
+
+void Date::validateDateByChangedCalendars()
+{
+	if (year == 1916 && month == 4 && day >= 1 && day <= 13) // invalid days due to change in callendars 
+		day = 15;
+}
+
+void Date::setYear(size_t year)
+{
 	this->year = year;
+
+	if (isLeapYear())
+		MAX_DAYS[1] = 29;
+	else
+		MAX_DAYS[1] = 28;
+	isModified = true;
+	validateDateByChangedCalendars();
 }
 
-void Date::setMonth(const size_t month) {
-	this->month;
+void Date::setMonth(size_t month)
+{
+	if (month > 12)
+	{
+		month = 1;
+	}
+	this->month = month;
+
+	if (day > MAX_DAYS[month - 1])
+		day = MAX_DAYS[month - 1];
+
+	isModified = true;
+	validateDateByChangedCalendars();
 }
 
-void Date::setDay(const size_t day) {
+void Date::setDay(size_t day)
+{
+	if (day > MAX_DAYS[month - 1])
+	{
+		day = 1;
+	}
 	this->day = day;
+	isModified = true;
+	validateDateByChangedCalendars();
 }
 
-void Date::setTime(const Time& time) {
-	this->time = time;
+void Date::goToNextDay()
+{
+	if (areEqual(Date(31, 03, 1916)))
+	{
+		setDay(14);
+		setMonth(04);
+		return;
+	}
+
+	setDay(day + 1);
+	if (day == 1)
+	{
+		setMonth(month + 1);
+		if (month == 1)
+			setYear(year + 1);
+	}
+}
+
+bool Date::areEqual(const Date& other) const
+{
+	return year == other.year && month == other.month && day == other.day;
 }
 
 size_t Date::getYear() const {
@@ -33,21 +91,19 @@ size_t Date::getDay() const {
 	return day;
 }
 
-const Time& Date::getTime() const {
+/*const Time& Date::getTime() const {
 	return time;
-}
+}*/
 
-Date::Date(const size_t year, const size_t month, const size_t day, const size_t hours,	const size_t mins, const size_t secs) {
-	this->year = year;
-	this->month = month;
-	this->day = day;
-	this->time.setHours(hours);
-	this->time.setMins(mins);
-	// this->time.setSecs(secs);
+Date::Date(const size_t year, const size_t month, const size_t day)//const size_t hours,	const size_t mins, const size_t secs) {
+{
+	setYear(year);
+	setMonth(month);
+	setDay(day);
 }
 
 ostream& operator<<(ostream& out, const Date& date) { // for console
-	out << date.day << "/"<< date.month <<"/" << date.year << " "<< date.time;
+	out << date.day << "/" << date.month << "/" << date.year;//<< " "<< date.time;
 	return out;
 }
 
@@ -59,7 +115,7 @@ ofstream& operator<<(ofstream& out, const Date& date) { // for file
 	out.write((const char*)&slash, sizeof(slash));
 	out.write((const char*)&date.year, sizeof(date.year));
 	out.write((const char*)&whiteSpace, sizeof(whiteSpace));
-	out << date.time;
+	// out << date.time;
 	return out;
 }
 
@@ -75,60 +131,60 @@ ifstream& operator>>(ifstream& in, Date& date) {
 	date.setYear(year);
 	date.setMonth(month);
 	date.setDay(day);
-	Time time;
-	in >> time;
-	date.setTime(time);
+	// Time time;
+	// in >> time;
+	// date.setTime(time);
 	return in;
 }
 
 istream& operator>>(istream& in, Date& date) { // for console
 	size_t day, month, year;
 	Time time;
-	in >> day >> month >> year >> time;
+	in >> day >> month >> year;//>> time;
 	date.setDay(day);
 	date.setMonth(month);
 	date.setYear(year);
-	date.setTime(time);
+	//date.setTime(time);
 	return in;
 }
 
 bool Date::operator==(const Date& other) const {
 	return this->day == other.day
 		&& this->month == other.month
-		&& this->year == other.year
-		&& this->time == other.time;
+		&& this->year == other.year;
+		//&& this->time == other.time;
 }
 
 bool Date::operator!=(const Date& other) const {
 	return ! (*this == other);
 }
 
-bool Date::operator>=(const Date& other) const {
+bool Date::operator>(const Date& other) const {
 	if (year > other.year) return true;
 	else if(year == other.year){
 		if (month > other.month) return true;
 		else if (month == other.month) {
-			if (day > other.day) return true;
-			else if(day == other.day)
+			if (day >= other.day) return true;
+			/*else if (day == other.day)
 			{
 				return time >= other.time;
-			}
+			}*/
 		}
 	}
 
 	return false;
 }
 
-bool Date::operator<=(const Date& other) const {
+bool Date::operator<(const Date& other) const {
 	if (year < other.year) return true;
 	else if (year == other.year) {
 		if (month < other.month) return true;
 		else if (month == other.month) {
-			if (day < other.day) return true;
-			else if (day == other.day)
+			if (day <= other.day) return true;
+			/*else if (day == other.day)
 			{
 				return time <= other.time;
-			}
+			}*/
 		}
 	}
 

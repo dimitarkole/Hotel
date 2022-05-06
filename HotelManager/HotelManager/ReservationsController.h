@@ -12,6 +12,7 @@ private:
 	
 	void readFromFile();
 	void printFreeRoom(const Room* freeRooms, const size_t freeRoomsCount, const Date& date) const;
+	Room* getFreeFreeRoom(const Room* rooms, const size_t roomsCount, const Date& date, size_t& freeRoomsCount) const;
 public:
 	ReservationsController();
 	

@@ -13,7 +13,7 @@ private:
 	void free();
 	void resize();
 	void copyFrom(const RoomsService& other);
-	void addRoom(const Room& room);
+	void create(const Room& room);
 public:
 	RoomsService();
 	RoomsService(const RoomsService& other);

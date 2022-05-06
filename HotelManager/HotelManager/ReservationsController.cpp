@@ -2,13 +2,14 @@
 #include "ReservationsController.h"
 #include<iostream>
 #include<fstream>
+
 using namespace std;
 
 const char* RESERVATION_FILE_NAME = "Data/reservations.dat";
 
 ReservationsController::ReservationsController()
 {
-	readFromFile();
+	// readFromFile();
 }
 
 void ReservationsController::readFromFile() {
@@ -51,14 +52,11 @@ void ReservationsController::writeToConsole() const {
 	cout << reservationsService;
 }
 
-void ReservationsController::viewFreeRoom(const Room* rooms, const size_t roomsCount) const{
-	size_t freeRoomsCount = 0;
-	cout << "Input date:" << endl;
-	Date date(2022, 5, 4, 5, 4);
-	// cin >> date;
+Room* ReservationsController::getFreeFreeRoom(const Room* rooms, const size_t roomsCount, const Date& date, size_t& freeRoomsCount) const {
 	Room* freeRooms = new Room[freeRoomsCount];
 	for (size_t i = 0; i < roomsCount; i++)
 	{
+		// TO DO: is room closed in period???
 		if (reservationsService.isRoomFree(rooms[i].getId(), date))
 		{
 			Room* newFreeRooms = new Room[freeRoomsCount + 1];
@@ -74,6 +72,15 @@ void ReservationsController::viewFreeRoom(const Room* rooms, const size_t roomsC
 		}
 	}
 
+	return freeRooms;
+}
+
+void ReservationsController::viewFreeRoom(const Room* rooms, const size_t roomsCount) const{
+	size_t freeRoomsCount = 0;
+	cout << "Input date:" << endl;
+	Date date;//(2022, 5, 4);//, 5, 4);
+	cin >> date;
+	Room* freeRooms = getFreeFreeRoom(rooms, roomsCount, date, freeRoomsCount);
 	printFreeRoom(freeRooms, freeRoomsCount, date);
 	delete[] freeRooms;
 }

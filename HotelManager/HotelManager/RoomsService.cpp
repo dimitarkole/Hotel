@@ -17,7 +17,7 @@ void RoomsService::copyFrom(const RoomsService& other) {
 	rooms = new Room[capacity];
 	for (size_t i = 0; i < other.roomsCount; i++)
 	{
-		addRoom(other.rooms[i]);
+		create(other.rooms[i]);
 	}
 }
 
@@ -91,7 +91,7 @@ const size_t RoomsService::getRoomsCount() const {
 	return roomsCount;
 }
 	
-void RoomsService::addRoom(const Room& room) {
+void RoomsService::create(const Room& room) {
 	resize();
 	rooms[roomsCount] = room;
 	roomsCount++;
@@ -113,11 +113,7 @@ ofstream& operator<<(ofstream& out, const RoomsService& roomsService) {
 	out.write((const char*)&roomsCount, sizeof(roomsCount));
 	for (size_t i = 0; i < roomsService.roomsCount; i++)
 	{
-		Room room = roomsService[i];
-		size_t roomId = room.getId();
-		size_t bedsCount = room.getBedsCount();
-		out.write((const char*)&roomId, sizeof(roomId));
-		out.write((const char*)&bedsCount, sizeof(bedsCount));
+		out << roomsService[i];
 	}
 
 	return out;
@@ -129,10 +125,10 @@ istream& operator>>(istream& in, RoomsService& roomsService) {
 	in >> roomsCount;
 	for (size_t i = 0; i < roomsCount; i++)
 	{
-		cout << "Input count of beds of room "<< i + 1 << endl;
+		cout << "Input room's count of beds: " << endl;
 		Room room;
 		in >> room;
-		roomsService.addRoom(room);
+		roomsService.create(room);
 	}
 
 	return in;
@@ -145,7 +141,7 @@ ifstream& operator>>(ifstream& in, RoomsService& roomsService) {
 	{
 		Room room;
 		in >> room;
-		roomsService.addRoom(room);
+		roomsService.create(room);
 	}
 
 	return in;

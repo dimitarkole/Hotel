@@ -63,6 +63,15 @@
     <ClCompile Include="RoomsController.cpp">
       <Filter>Source Files\Controllers</Filter>
     </ClCompile>
+    <ClCompile Include="CloseRoom.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="CloseRoomsService.cpp">
+      <Filter>Source Files\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="CloseRoomsController.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Date.h">
@@ -88,6 +97,15 @@
     </ClInclude>
     <ClInclude Include="Room.h">
       <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="CloseRoom.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="CloseRoomsService.h">
+      <Filter>Header Files\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="CloseRoomsController.h">
+      <Filter>Header Files\Contreollers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

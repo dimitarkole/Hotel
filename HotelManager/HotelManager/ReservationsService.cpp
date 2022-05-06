@@ -17,7 +17,7 @@ void ReservationsService::copyFrom(const ReservationsService& other) {
 	reservations = new Reservation[capacity];
 	for (size_t i = 0; i < other.capacity; i++)
 	{
-		addReservation(other.reservations[i]);
+		create(other.reservations[i]);
 	}
 }
 
@@ -84,7 +84,7 @@ bool ReservationsService::isRoomFree(size_t roomId, const Date& date) const {
 	{
 		if (reservations[i].getRoomId() == roomId)
 		{
-			if (reservations[i].getFrom() <= date && date <= reservations[i].getTo())
+			if (reservations[i].getFrom() < date && date < reservations[i].getTo())
 			{
 				return false;
 			}
@@ -94,7 +94,7 @@ bool ReservationsService::isRoomFree(size_t roomId, const Date& date) const {
 	return true;
 }
 
-void ReservationsService::addReservation(const Reservation& reservation) {
+void ReservationsService::create(const Reservation& reservation) {
 	reservations[reservationsCount] = reservation;
 	reservationsCount++;
 	resize();
@@ -140,29 +140,9 @@ istream& operator>>(istream& in, ReservationsService& reservationsService) {
 	// in >> reservationsCount;
 	// for (size_t i = 0; i < reservationsCount; i++)
 	// {
-		cout << "Input roomId:" << endl;
-		size_t roomId;
-		in >> roomId;
-		char* gostName = new char[MAX_GOST_NAME_LEN + 1];
-		cout << "Input gost name:" << endl;
-		char newLine;
-		in.get(newLine);
-		in.getline(gostName, MAX_GOST_NAME_LEN);
-		gostName[MAX_GOST_NAME_LEN] = 0;
-		Date from, to;
-		cout << "Input from date:" << endl;
-		in >> from;
-		cout << "Input to date:" << endl;
-		in >> to;
-		char* description = new char[MAX_DESCRIPTION_LEN + 1];
-		cout << "Input to description:" << endl;
-		in.get(newLine);
-		in.getline(description, MAX_DESCRIPTION_LEN);
-		description[MAX_DESCRIPTION_LEN] = 0;
-		Reservation reservation(roomId, from, to, gostName, description);
-		reservationsService.addReservation(reservation);
-		delete[] gostName;
-		delete[] description;
+		Reservation reservation;
+		in >> reservation;
+		reservationsService.create(reservation);
 	// }
 	return in;
 }
@@ -174,7 +154,7 @@ ifstream& operator>>(ifstream& in, ReservationsService& reservationsService) {
 	{
 		Reservation reservation;
 		in >> reservation;
-		reservationsService.addReservation(reservation);
+		reservationsService.create(reservation);
 	}
 
 	return in;
