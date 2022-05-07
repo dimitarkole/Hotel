@@ -10,7 +10,7 @@ private:
 	
 	void free();
 	void copyFrom(const Reservation& other);
-public:	
+public:
 	Reservation();
 	Reservation(size_t roomId, Date from, Date to, char* gostName, char* desctiption);
 	Reservation(const Reservation& other);
@@ -22,6 +22,8 @@ public:
 	void setRoomId(const size_t roomId);
 	void setGostName(const char* gostName);
 	void setDescription(const char* description);
+
+	bool isReservationInPeriod(const Date& from, const Date& to) const;
 
 	const Date& getFrom() const;
 	const Date& getTo() const;

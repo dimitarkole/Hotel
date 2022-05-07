@@ -24,6 +24,11 @@ void Reservation::copyFrom(const Reservation& other) {
 	setDescription(other.description);
 }
 
+bool Reservation::isReservationInPeriod(const Date& from, const Date& to) const
+{
+	return from <= this->from && this->to <= to;
+}
+
 Reservation::Reservation() {
 	this->gostName = nullptr;
 	this->description = nullptr;
@@ -125,8 +130,10 @@ const size_t Reservation::getDescriptionLen() const {
 }
 
 ostream& operator<<(ostream& out, const Reservation& reservation) {
-	out << "room id: " << reservation.roomId << " Gost name:" << reservation.gostName << " From:";
-	out << reservation.from << " To:" << reservation.to << " Description: ";
+	out << "room id: " << reservation.roomId << " Gost name:" << reservation.gostName;
+	out << " From:" << reservation.from;
+	out << " To:" << reservation.to;
+	out << " Description: ";
 	out << reservation.description;
 	return out;
 }

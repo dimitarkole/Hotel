@@ -2,6 +2,7 @@
 #pragma warning(disable:4996)
 #include<iostream>
 #include "Room.h"
+#include "Date.h"
 using namespace std;
 
 class RoomsService
@@ -26,6 +27,7 @@ public:
 	const Room* getRoom() const;
 	const size_t getCapacity() const;
 	const size_t getRoomsCount() const;
+
 
 	friend ostream& operator<<(ostream& out, const RoomsService& roomsService);
 	friend ofstream& operator<<(ofstream& out, const RoomsService& roomsService);

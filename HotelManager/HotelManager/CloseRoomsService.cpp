@@ -1,5 +1,6 @@
 #pragma warning(disable:4996)
 #include "CloseRoomsService.h"
+#include "Period.h"
 
 #include<fstream>
 #include<iostream>
@@ -84,7 +85,7 @@ bool CloseRoomsService::isRoomClosed(size_t roomId, const Date& date) const {
 	{
 		if (closeRooms[i].getRoomId() == roomId)
 		{
-			if (closeRooms[i].getFrom() < date && date < closeRooms[i].getTo())
+			if (closeRooms[i].getPeriod().getFrom() < date && date < closeRooms[i].getPeriod().getTo())
 			{
 				return false;
 			}

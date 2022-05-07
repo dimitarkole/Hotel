@@ -164,6 +164,22 @@ bool Date::operator>(const Date& other) const {
 	else if(year == other.year){
 		if (month > other.month) return true;
 		else if (month == other.month) {
+			if (day > other.day) return true;
+			/*else if (day == other.day)
+			{
+				return time >= other.time;
+			}*/
+		}
+	}
+
+	return false;
+}
+
+bool Date::operator>=(const Date& other) const {
+	if (year > other.year) return true;
+	else if (year == other.year) {
+		if (month > other.month) return true;
+		else if (month == other.month) {
 			if (day >= other.day) return true;
 			/*else if (day == other.day)
 			{
@@ -175,7 +191,24 @@ bool Date::operator>(const Date& other) const {
 	return false;
 }
 
+
 bool Date::operator<(const Date& other) const {
+	if (year < other.year) return true;
+	else if (year == other.year) {
+		if (month < other.month) return true;
+		else if (month == other.month) {
+			if (day < other.day) return true;
+			/*else if (day == other.day)
+			{
+				return time <= other.time;
+			}*/
+		}
+	}
+
+	return false;
+}
+
+bool Date::operator<=(const Date& other) const {
 	if (year < other.year) return true;
 	else if (year == other.year) {
 		if (month < other.month) return true;

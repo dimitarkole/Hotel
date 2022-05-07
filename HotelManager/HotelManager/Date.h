@@ -36,6 +36,8 @@ public:
 	bool operator!=(const Date& other) const;
 	bool operator>(const Date& other) const;
 	bool operator<(const Date& other) const;
+	bool operator>=(const Date& other) const;
+	bool operator<=(const Date& other) const;
 
 	friend ostream& operator<<(ostream& out, const Date& date); // for console
 	friend istream& operator>>(istream& in, Date& time); // for console

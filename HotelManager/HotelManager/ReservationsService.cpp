@@ -1,5 +1,6 @@
 #pragma warning(disable:4996)
 #include "ReservationsService.h"
+#include "Room.h"
 
 #include<fstream>
 #include<iostream>
@@ -100,6 +101,30 @@ void ReservationsService::create(const Reservation& reservation) {
 	resize();
 }
 
+Reservation* ReservationsService::getReservatedRoomsForPeriod(const Date& from, const Date& to, size_t& reservationsCount)
+{
+	reservationsCount = 0;
+	Reservation* reservatedRoomsInPeriod = new Reservation[reservationsCount];
+	for (size_t i = 0; i < reservationsCount; i++)
+	{
+		if (reservations[i].isReservationInPeriod(from, to))
+		{
+			Reservation* newReservatedRoomsInPeriod = new Reservation[reservationsCount + 1];
+			for (size_t j = 0; j < reservationsCount; j++)
+			{
+				newReservatedRoomsInPeriod[j] = reservatedRoomsInPeriod[j];
+			}
+
+			newReservatedRoomsInPeriod[reservationsCount] = reservations[i];
+			delete[] reservatedRoomsInPeriod;
+			reservatedRoomsInPeriod = newReservatedRoomsInPeriod;
+			reservationsCount++;
+		}
+	}
+
+	return reservatedRoomsInPeriod;
+}
+
 const Reservation* ReservationsService::getReservations() const {
 	return reservations;
 }
@@ -111,6 +136,7 @@ const size_t ReservationsService::getCapacity() const {
 const size_t ReservationsService::getReservationsCount() const {
 	return reservationsCount;
 }
+
 
 ostream& operator<<(ostream& out, const ReservationsService& reservationsService) {
 	size_t reservationsCount = reservationsService.getReservationsCount();

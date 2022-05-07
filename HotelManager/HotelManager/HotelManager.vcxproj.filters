@@ -72,6 +72,9 @@
     <ClCompile Include="CloseRoomsController.cpp">
       <Filter>Source Files\Controllers</Filter>
     </ClCompile>
+    <ClCompile Include="Period.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Date.h">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="CloseRoomsController.h">
       <Filter>Header Files\Contreollers</Filter>
+    </ClInclude>
+    <ClInclude Include="Period.h">
+      <Filter>Header Files\Models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
