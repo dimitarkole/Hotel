@@ -169,6 +169,7 @@
     <ClInclude Include="Time.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\closedRooms.dat" />
     <None Include="Data\reservations.dat" />
     <None Include="Data\rooms.dat" />
     <None Include="packages.config" />

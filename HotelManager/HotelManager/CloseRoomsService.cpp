@@ -1,6 +1,5 @@
 #pragma warning(disable:4996)
 #include "CloseRoomsService.h"
-#include "Period.h"
 
 #include<fstream>
 #include<iostream>

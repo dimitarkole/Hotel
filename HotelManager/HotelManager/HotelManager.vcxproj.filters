@@ -119,6 +119,9 @@
     <None Include="Data\rooms.dat">
       <Filter>Data</Filter>
     </None>
+    <None Include="Data\closedRooms.dat">
+      <Filter>Data</Filter>
+    </None>
     <None Include="Data\reservations.dat">
       <Filter>Data</Filter>
     </None>

@@ -1,10 +1,10 @@
+#pragma once
 #pragma warning(disable:4996)
 #include<iostream>
 #include<fstream>
 #include<cstring>
 
 #include "CloseRoom.h"
-#include "Period.h"
 
 using namespace std;
 
@@ -45,9 +45,8 @@ CloseRoom& CloseRoom::operator=(const CloseRoom& other) {
 	return *this;
 }
 
-void CloseRoom::setPeriod(const Period& period){
-	this->period.setFrom(period.getFrom());
-	this->period.setTo(period.getTo());
+void CloseRoom::setPeriod(const Period& period) {
+	this->period = period;
 }
 
 void CloseRoom::setRoomId(const size_t roomId) {
@@ -92,7 +91,7 @@ ofstream& operator<<(ofstream& out, const CloseRoom& closeRoom) {
 	out.write((const char*)&closeRoom.roomId, sizeof(closeRoom.roomId));
 	out << closeRoom.period;
 	out.write((const char*)&closeRoom.descriptionLen, sizeof(closeRoom.descriptionLen));
-	out.write((const char*)closeRoom.description, sizeof(closeRoom.description));
+	out.write((const char*)closeRoom.description, closeRoom.descriptionLen);
 	return out;
 }
 

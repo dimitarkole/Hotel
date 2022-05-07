@@ -9,7 +9,7 @@ const char* RESERVATION_FILE_NAME = "Data/reservations.dat";
 
 ReservationsController::ReservationsController()
 {
-	// readFromFile();
+	readFromFile();
 }
 
 void ReservationsController::readFromFile() {
@@ -52,7 +52,7 @@ void ReservationsController::writeToConsole() const {
 	cout << reservationsService;
 }
 
-Room* ReservationsController::getFreeFreeRoom(const Room* rooms, const size_t roomsCount, const Date& date, size_t& freeRoomsCount) const {
+const Room* ReservationsController::getFreeFreeRoom(const Room* rooms, const size_t roomsCount, const Date& date, size_t& freeRoomsCount) const {
 	Room* freeRooms = new Room[freeRoomsCount];
 	for (size_t i = 0; i < roomsCount; i++)
 	{
@@ -80,7 +80,7 @@ void ReservationsController::viewFreeRoom(const Room* rooms, const size_t roomsC
 	cout << "Input date:" << endl;
 	Date date;//(2022, 5, 4);//, 5, 4);
 	cin >> date;
-	Room* freeRooms = getFreeFreeRoom(rooms, roomsCount, date, freeRoomsCount);
+	const Room* freeRooms = getFreeFreeRoom(rooms, roomsCount, date, freeRoomsCount);
 	printFreeRoom(freeRooms, freeRoomsCount, date);
 	delete[] freeRooms;
 }
@@ -90,5 +90,57 @@ void ReservationsController::printFreeRoom(const Room* freeRooms, const size_t f
 	for (size_t i = 0; i < freeRoomsCount; i++)
 	{
 		cout << freeRooms[i] << endl;
+	}
+}
+
+void ReservationsController::removeReservation() {
+	size_t reservationId;
+	do {
+		cout << "Input reservationId:" << endl;
+		cin >> reservationId;
+	} while (reservationsService.hasReservation(reservationId));
+	
+	reservationsService.remove(reservationId);
+}
+
+void ReservationsController::writeToFileReservetedRoomsInPeriod() const
+{
+	size_t reservatedRoomsCount = 0;
+	Period period;
+	cin >> period;
+	const Reservation* reservatedRooms = reservationsService.getReservatedRoomsForPeriod(period, reservatedRoomsCount);
+	size_t year = period.getFrom().getYear();
+	size_t month = period.getFrom().getMonth();
+	size_t day = period.getFrom().getDay();
+	char fileName[] = "report-YYYY-MM-DD.txt";
+	fileName[7] = year / 1000 + '0';
+	fileName[8] = (year / 100) % 10 + '0';
+	fileName[9] = (year / 10) % 10 + '0';
+	fileName[10] = year % 10 + '0';
+	fileName[12] = month / 10 + '0';
+	fileName[13] = month % 10 + '0';
+	fileName[15] = day / 10 + '0';
+	fileName[16] = day % 10 + '0';
+	ofstream file(fileName, ios::binary);
+	if (!file.is_open()) {
+		return;
+	}
+
+	file.write((const char*)&reservatedRoomsCount, sizeof(reservatedRoomsCount));
+	// cout << "reservatedRoomsCount:" << reservatedRoomsCount << endl;
+	for (size_t i = 0; i < reservatedRoomsCount; i++)
+	{
+		// cout << "reservatedRooms[" << i<<"]:" << reservatedRooms[i] << endl;
+		file << reservatedRooms[i];
+	}
+
+	delete[] reservatedRooms;
+
+	try
+	{
+		file.close();
+	}
+	catch (const std::exception&)
+	{
 	}
 }

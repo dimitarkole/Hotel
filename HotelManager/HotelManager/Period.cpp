@@ -1,5 +1,4 @@
 #include "Period.h"
-#include "Date.h"
 
 Period::Period() {
 }
@@ -8,12 +7,12 @@ Period::Period(const Date& from, const Date& to) {
 	setFrom(from);
 	setTo(to);
 }
-/*
+
 Period::Period(const Period& period) {
 	setFrom(period.from);
 	setTo(period.to);
 }
-*/
+
 const Date& Period::getFrom() const {
 	return from;
 }
@@ -50,7 +49,7 @@ istream& operator>>(istream& in, Period& period) {
 	do {
 		cout << "Input date to: " << endl;
 		in >> to; 
-	} while (to <= from);
+	} while (to < from);
 	period.setFrom(from);
 	period.setTo(to);
 	return in;

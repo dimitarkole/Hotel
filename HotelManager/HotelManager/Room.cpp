@@ -6,13 +6,13 @@
 
 using namespace std;
 
-size_t Room::counter = 0;
+size_t Room::maxId = 0;
 
 Room::Room(): Room(0) {
 }
 
 Room::Room(const size_t bedsCount) {
-	setId(counter);
+	setId(maxId++);
 	setBedsCount(bedsCount);
 }
 
@@ -54,17 +54,16 @@ istream& operator>>(istream& in, Room& room) {
 	size_t bedsCount;
 	in >> bedsCount;
 	room.setBedsCount(bedsCount);
-	room.counter++;
-	room.setId(room.counter);
+	room.setId(room.maxId++);
 	return in;
 }
 
 ifstream& operator>>(ifstream& in, Room& room) {
 	size_t roomId, bedsCount;
-	room.counter++;
 	in.read((char*)&roomId, sizeof(roomId));
 	in.read((char*)&bedsCount, sizeof(bedsCount));
 	room.setBedsCount(bedsCount);
 	room.setId(roomId);
+	room.maxId = room.maxId < roomId ? roomId : room.maxId;
 	return in;
 }

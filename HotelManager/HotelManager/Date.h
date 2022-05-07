@@ -1,6 +1,9 @@
-#pragma warning(disable:4996)
 #pragma once
-#include "Time.h"
+#pragma warning(disable:4996)
+//#include "Time.h"
+#include<fstream>
+#include<iostream>
+using namespace std;
 
 class Date
 {
@@ -40,7 +43,7 @@ public:
 	bool operator<=(const Date& other) const;
 
 	friend ostream& operator<<(ostream& out, const Date& date); // for console
-	friend istream& operator>>(istream& in, Date& time); // for console
+	friend istream& operator>>(istream& in, Date& date); // for console
 	friend ofstream& operator<<(ofstream& out, const Date& date); // for file
-	friend ifstream& operator>>(ifstream& in, Date& time); // for file
+	friend ifstream& operator>>(ifstream& in, Date& date); // for file
 };

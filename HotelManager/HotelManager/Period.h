@@ -1,14 +1,15 @@
-#include "Date.h"
+#pragma once
 #include<iostream>
+#include "Date.h"
 using namespace std;
 
 class Period
-{ 
+{
 private:
 	Date from, to;
 public:
 	Period();
-	//Period(const Period& other);
+	Period(const Period& other);
 	Period(const Date& from, const Date& to);
 
 	const Date& getFrom() const;

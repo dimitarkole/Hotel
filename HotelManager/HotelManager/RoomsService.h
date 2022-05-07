@@ -28,7 +28,6 @@ public:
 	const size_t getCapacity() const;
 	const size_t getRoomsCount() const;
 
-
 	friend ostream& operator<<(ostream& out, const RoomsService& roomsService);
 	friend ofstream& operator<<(ofstream& out, const RoomsService& roomsService);
 	friend istream& operator>>(istream& in, RoomsService& roomsService);
