@@ -1,35 +1,30 @@
 #pragma once
 #pragma warning(disable:4996)
-#include<iostream>
-#include "Period.h"
-using namespace std;
+#include "Date.h"
 class Reservation
 {
 private:
-	Period period;
-	size_t id, roomId, gostNameLen, descriptionLen;
+	Date from, to;
+	size_t roomId, gostNameLen, descriptionLen;
 	char* gostName, *description;
-
-	static size_t maxId;
+	
 	void free();
 	void copyFrom(const Reservation& other);
-	void setId(const size_t id);
-public:
+public:	
 	Reservation();
-	Reservation(size_t roomId, const Period& period, char* gostName, char* desctiption);
+	Reservation(size_t roomId, Date from, Date to, char* gostName, char* desctiption);
 	Reservation(const Reservation& other);
 	~Reservation();
 	Reservation& operator=(const Reservation& other);
 
-	void setPeriod(const Period& period);
+	void setFrom(const Date from);
+	void setTo(const Date to);
 	void setRoomId(const size_t roomId);
 	void setGostName(const char* gostName);
 	void setDescription(const char* description);
 
-	bool isReservationInPeriod(const Period period) const;
-
-	const Period& getPeriod() const;
-	const size_t  getId() const;
+	const Date& getFrom() const;
+	const Date& getTo() const;
 	const size_t  getRoomId() const;
 	const char* getGostName() const;
 	const size_t getGostNameLen() const;

@@ -1,10 +1,13 @@
 #pragma warning(disable:4996)
+#include<iostream>
+#include<fstream>
+#include<cstring>
 
 #include "Reservation.h"
 
-const size_t MAX_GOST_NAME_LEN = 1024, MAX_DESCRIPTION_LEN = 8 * 1024;
+using namespace std;
 
-size_t Reservation::maxId = 0;
+const size_t MAX_GOST_NAME_LEN = 1024, MAX_DESCRIPTION_LEN = 8 * 1024;
 
 void Reservation::free() {
 	delete[] gostName;
@@ -14,35 +17,30 @@ void Reservation::free() {
 void Reservation::copyFrom(const Reservation& other) {
 	gostName = nullptr;
 	description = nullptr;
-	this->period = other.period;
+	from = other.from;
+	to = other.from;
 	roomId = other.roomId;
 	setGostName(other.gostName);
 	setDescription(other.description);
-	setId(other.id);
-}
-
-bool Reservation::isReservationInPeriod(const Period period) const
-{
-	return period.getFrom() <= this->period.getFrom() && this->period.getTo() <= period.getTo();
 }
 
 Reservation::Reservation() {
 	this->gostName = nullptr;
 	this->description = nullptr;
-	this->period = Period();
+	this->from = Date();
+	this->to = Date();
 	this->roomId = 0;
 	setGostName("");
-	setId(maxId++);
 	setDescription("");
 }
 
-Reservation::Reservation(size_t roomId, const Period& period, char* gostName, char* description) {
+Reservation::Reservation(size_t roomId, Date from, Date to, char* gostName, char* description) {
 	this->gostName = nullptr;
 	this->description = nullptr;
-	this->period = period;
+	this->from = from;
+	this->to = from;
 	this->roomId = roomId;
 	setGostName(gostName);
-	setId(maxId++);
 	setDescription(description);
 }
 
@@ -64,16 +62,16 @@ Reservation& Reservation::operator=(const Reservation& other) {
 	return *this;
 }
 
-void Reservation::setPeriod(const Period& period) {
-	this->period = period;
+void Reservation::setFrom(const Date from) {
+	this->from = from;
+}
+
+void Reservation::setTo(const Date to) {
+	this->to = to;
 }
 
 void Reservation::setRoomId(const size_t roomId) {
 	this->roomId = roomId;
-}
-
-void Reservation::setId(const size_t id) {
-	this->id = id;
 }
 
 void Reservation::setGostName(const char* gostName) {
@@ -98,16 +96,16 @@ void Reservation::setDescription(const char* description) {
 	}
 }
 
-const Period& Reservation::getPeriod() const {
-	return period;
+const Date& Reservation::getFrom() const {
+	return from;
 }
 
-const size_t Reservation::getRoomId() const {
+const Date& Reservation::getTo() const {
+	return to;
+}
+
+const size_t  Reservation::getRoomId() const {
 	return roomId;
-}
-
-const size_t  Reservation::getId() const {
-	return id;
 }
 
 const char* Reservation::getGostName() const {
@@ -127,23 +125,22 @@ const size_t Reservation::getDescriptionLen() const {
 }
 
 ostream& operator<<(ostream& out, const Reservation& reservation) {
-	out << "id: " << reservation.id;
-	out << " room id: " << reservation.roomId;
-	out << " gost name:" << reservation.gostName;
-	out << reservation.period;
-	out << " description: ";
+	out << "room id: " << reservation.roomId << " Gost name:" << reservation.gostName << " From:";
+	out << reservation.from << " To:" << reservation.to << " Description: ";
 	out << reservation.description;
 	return out;
 }
 
 ofstream& operator<<(ofstream& out, const Reservation& reservation) {
-	out.write((const char*)&reservation.id, sizeof(reservation.id));
 	out.write((const char*)&reservation.roomId, sizeof(reservation.roomId));
 	out.write((const char*)&reservation.gostNameLen, sizeof(reservation.gostNameLen));
-	out.write(reservation.gostName, reservation.gostNameLen);
-	out << reservation.period;
+	out.write((const char*)reservation.gostName, sizeof(reservation.gostName));
+	out << reservation.from;
+	out<< reservation.to;
+	/*out.write((const char*)&reservation.from, sizeof(reservation.from));
+	out.write((const char*)&reservation.to, sizeof(reservation.to));*/
 	out.write((const char*)&reservation.descriptionLen, sizeof(reservation.descriptionLen));
-	out.write(reservation.description, reservation.descriptionLen);
+	out.write((const char*)reservation.description, sizeof(reservation.description));
 	return out;
 }
 
@@ -152,16 +149,18 @@ istream& operator>>(istream& in, Reservation& reservation) {
 	in >> reservation.roomId;
 	char newLine;
 	char* gostName = new char[MAX_GOST_NAME_LEN + 1];
+	in.getline(gostName, MAX_GOST_NAME_LEN);
 	in.get(newLine);
 	cout << "Input gost name:" << endl;
-	in.getline(gostName, MAX_GOST_NAME_LEN);
 	reservation.setGostName(gostName);
-	in >> reservation.period;
+	cout << "Input from date:" << endl;
+	in >> reservation.from;
+	cout << "Input to date:" << endl;
+	in >> reservation.to;
 	in.get(newLine);
 	cout << "Input to description:" << endl;
 	char* description = new char[MAX_DESCRIPTION_LEN + 1];
 	in.getline(description, MAX_DESCRIPTION_LEN);
-	reservation.setId(reservation.maxId++);
 	reservation.setDescription(description);
 	delete[] gostName;
 	delete[] description;
@@ -169,16 +168,15 @@ istream& operator>>(istream& in, Reservation& reservation) {
 }
 
 ifstream& operator>>(ifstream& in, Reservation& reservation) {
-	in.read((char*)&reservation.id, sizeof(reservation.id));
-	reservation.maxId = reservation.maxId < reservation.id ? reservation.id : reservation.maxId;
 	in.read((char*)&reservation.roomId, sizeof(reservation.roomId));
-	size_t gostNameLen = 0;
+	size_t gostNameLen;
 	in.read((char*)&gostNameLen, sizeof(gostNameLen));
 	char* gostName = new char[gostNameLen + 1];
 	in.read((char*)gostName, gostNameLen);
 	gostName[gostNameLen] = 0;
 	reservation.setGostName(gostName);
-	in >> reservation.period;
+	in >> reservation.from;
+	in >> reservation.to;
 	size_t descriptionLen;
 	in.read((char*)&descriptionLen, sizeof(descriptionLen));
 	char* description = new char[descriptionLen + 1];

@@ -9,7 +9,7 @@ private:
 	size_t id;
 	size_t bedsCount;
 
-	static size_t maxId;
+	static size_t counter;
 	void setId(const size_t id);
 public:
 	Room();

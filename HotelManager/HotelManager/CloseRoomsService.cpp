@@ -84,7 +84,7 @@ bool CloseRoomsService::isRoomClosed(size_t roomId, const Date& date) const {
 	{
 		if (closeRooms[i].getRoomId() == roomId)
 		{
-			if (closeRooms[i].getPeriod().getFrom() < date && date < closeRooms[i].getPeriod().getTo())
+			if (closeRooms[i].getFrom() < date && date < closeRooms[i].getTo())
 			{
 				return false;
 			}

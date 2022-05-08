@@ -1,4 +1,3 @@
-#pragma once
 #pragma warning(disable:4996)
 #include<iostream>
 #include<fstream>
@@ -16,15 +15,26 @@ void CloseRoom::free() {
 
 void CloseRoom::copyFrom(const CloseRoom& other) {
 	description = nullptr;
-	period = other.period;
+	from = other.from;
+	to = other.from;
 	roomId = other.roomId;
 	setDescription(other.description);
 }
 
 CloseRoom::CloseRoom() {
 	this->description = nullptr;
+	this->from = Date();
+	this->to = Date();
 	this->roomId = 0;
 	setDescription("");
+}
+
+CloseRoom::CloseRoom(size_t roomId, Date from, Date to, char* description) {
+	this->description = nullptr;
+	this->from = from;
+	this->to = from;
+	this->roomId = roomId;
+	setDescription(description);
 }
 
 CloseRoom::CloseRoom(const CloseRoom& other) {
@@ -45,8 +55,12 @@ CloseRoom& CloseRoom::operator=(const CloseRoom& other) {
 	return *this;
 }
 
-void CloseRoom::setPeriod(const Period& period) {
-	this->period = period;
+void CloseRoom::setFrom(const Date from) {
+	this->from = from;
+}
+
+void CloseRoom::setTo(const Date to) {
+	this->to = to;
 }
 
 void CloseRoom::setRoomId(const size_t roomId) {
@@ -64,11 +78,15 @@ void CloseRoom::setDescription(const char* description) {
 	}
 }
 
-const Period& CloseRoom::getPeriod() const{
-	return period;
+const Date& CloseRoom::getFrom() const {
+	return from;
 }
 
-const size_t CloseRoom::getRoomId() const {
+const Date& CloseRoom::getTo() const {
+	return to;
+}
+
+const size_t  CloseRoom::getRoomId() const {
 	return roomId;
 }
 
@@ -81,24 +99,28 @@ const size_t CloseRoom::getDescriptionLen() const {
 }
 
 ostream& operator<<(ostream& out, const CloseRoom& closeRoom) {
-	out << "room id: " << closeRoom.roomId;
-	out << " " << closeRoom.period;
-	out<< " Description: " << closeRoom.description;
+	out << "room id: " << closeRoom.roomId << " From:";
+	out << closeRoom.from << " To:" << closeRoom.to << " Description: ";
+	out << closeRoom.description;
 	return out;
 }
 
 ofstream& operator<<(ofstream& out, const CloseRoom& closeRoom) {
 	out.write((const char*)&closeRoom.roomId, sizeof(closeRoom.roomId));
-	out << closeRoom.period;
+	out << closeRoom.from;
+	out << closeRoom.to;
 	out.write((const char*)&closeRoom.descriptionLen, sizeof(closeRoom.descriptionLen));
-	out.write((const char*)closeRoom.description, closeRoom.descriptionLen);
+	out.write((const char*)closeRoom.description, sizeof(closeRoom.description));
 	return out;
 }
 
 istream& operator>>(istream& in, CloseRoom& closeRoom) {
 	cout << "Input roomId:" << endl;
 	in >> closeRoom.roomId;
-	in >> closeRoom.period;
+	cout << "Input from date:" << endl;
+	in >> closeRoom.from;
+	cout << "Input to date:" << endl;
+	in >> closeRoom.to;
 	cout << "Input to description:" << endl;
 	char newLine;
 	in.get(newLine);
@@ -112,7 +134,8 @@ istream& operator>>(istream& in, CloseRoom& closeRoom) {
 
 ifstream& operator>>(ifstream& in, CloseRoom& closeRoom) {
 	in.read((char*)&closeRoom.roomId, sizeof(closeRoom.roomId));
-	in >> closeRoom.period;
+	in >> closeRoom.from;
+	in >> closeRoom.to;
 	size_t descriptionLen;
 	in.read((char*)&descriptionLen, sizeof(descriptionLen));
 	char* description = new char[descriptionLen + 1];

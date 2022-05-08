@@ -1,5 +1,7 @@
-#pragma once
 #pragma warning(disable:4996)
+#ifndef TIME_H
+#define TIME_H
+#pragma once
 #include <fstream>
 using namespace std;
 
@@ -30,3 +32,4 @@ public:
 	friend istream& operator>>(istream& in, Time& time);
 	friend ifstream& operator>>(ifstream& in, Time& time);
 };
+#endif

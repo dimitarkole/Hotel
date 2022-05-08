@@ -1,6 +1,9 @@
 #pragma warning(disable:4996)
 #include "Date.h"
-//#include "Time.h"
+#include "Time.h"
+#include<fstream>
+#include<iostream>
+using namespace std;
 
 bool Date::isLeapYear() const
 {
@@ -100,24 +103,31 @@ Date::Date(const size_t year, const size_t month, const size_t day)//const size_
 }
 
 ostream& operator<<(ostream& out, const Date& date) { // for console
-	out << date.getDay() << "/" << date.getMonth()  << "/" << date.getYear();//<< " "<< date.time;
+	out << date.day << "/" << date.month << "/" << date.year;//<< " "<< date.time;
 	return out;
 }
 
 ofstream& operator<<(ofstream& out, const Date& date) { // for file
-	size_t day = date.getDay(), month = date.getMonth(), year = date.getYear();
-	out.write((const char*)&day, sizeof(day));
-	out.write((const char*)&month, sizeof(month));
-	out.write((const char*)&year, sizeof(year));
+	const char slash = '/', whiteSpace = ' ';
+	out.write((const char*)&date.day, sizeof(date.day));
+	out.write((const char*)&slash, sizeof(slash));
+	out.write((const char*)&date.month, sizeof(date.month));
+	out.write((const char*)&slash, sizeof(slash));
+	out.write((const char*)&date.year, sizeof(date.year));
+	out.write((const char*)&whiteSpace, sizeof(whiteSpace));
 	// out << date.time;
 	return out;
 }
 
 ifstream& operator>>(ifstream& in, Date& date) {
+	char slash = '/', whiteSpace = ' ';
 	size_t day, month, year;
 	in.read((char*)&day, sizeof(day));
+	in.read((char*)&slash, sizeof(slash));
 	in.read((char*)&month, sizeof(month));
+	in.read((char*)&slash, sizeof(slash));
 	in.read((char*)&year, sizeof(year));
+	in.read((char*)&whiteSpace, sizeof(whiteSpace));
 	date.setYear(year);
 	date.setMonth(month);
 	date.setDay(day);
@@ -129,11 +139,11 @@ ifstream& operator>>(ifstream& in, Date& date) {
 
 istream& operator>>(istream& in, Date& date) { // for console
 	size_t day, month, year;
-	//Time time;
+	Time time;
 	in >> day >> month >> year;//>> time;
-	date.setYear(year);
-	date.setMonth(month);
 	date.setDay(day);
+	date.setMonth(month);
+	date.setYear(year);
 	//date.setTime(time);
 	return in;
 }
@@ -154,22 +164,6 @@ bool Date::operator>(const Date& other) const {
 	else if(year == other.year){
 		if (month > other.month) return true;
 		else if (month == other.month) {
-			if (day > other.day) return true;
-			/*else if (day == other.day)
-			{
-				return time >= other.time;
-			}*/
-		}
-	}
-
-	return false;
-}
-
-bool Date::operator>=(const Date& other) const {
-	if (year > other.year) return true;
-	else if (year == other.year) {
-		if (month > other.month) return true;
-		else if (month == other.month) {
 			if (day >= other.day) return true;
 			/*else if (day == other.day)
 			{
@@ -181,24 +175,7 @@ bool Date::operator>=(const Date& other) const {
 	return false;
 }
 
-
 bool Date::operator<(const Date& other) const {
-	if (year < other.year) return true;
-	else if (year == other.year) {
-		if (month < other.month) return true;
-		else if (month == other.month) {
-			if (day < other.day) return true;
-			/*else if (day == other.day)
-			{
-				return time <= other.time;
-			}*/
-		}
-	}
-
-	return false;
-}
-
-bool Date::operator<=(const Date& other) const {
 	if (year < other.year) return true;
 	else if (year == other.year) {
 		if (month < other.month) return true;
