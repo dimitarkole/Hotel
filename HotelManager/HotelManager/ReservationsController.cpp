@@ -53,6 +53,7 @@ void ReservationsController::writeToConsole() const {
 }
 
 const Room* ReservationsController::getFreeFreeRoom(const Room* rooms, const size_t roomsCount, const Date& date, size_t& freeRoomsCount) const {
+	freeRoomsCount = 0;
 	Room* freeRooms = new Room[freeRoomsCount];
 	for (size_t i = 0; i < roomsCount; i++)
 	{
@@ -75,6 +76,33 @@ const Room* ReservationsController::getFreeFreeRoom(const Room* rooms, const siz
 	return freeRooms;
 }
 
+const Room* ReservationsController::getFreeFreeRoom(const Room* rooms, const size_t roomsCount, const Period& period, size_t& freeRoomsCount, const size_t minCountOfBeds) const {
+	freeRoomsCount = 0;
+	Room* freeRooms = new Room[freeRoomsCount];
+	for (size_t i = 0; i < roomsCount; i++)
+	{
+		// TO DO: is room closed in period???
+		if (rooms[i].getBedsCount() >= minCountOfBeds)
+		{
+			if (reservationsService.isRoomFree(rooms[i].getId(), period))
+			{
+				Room* newFreeRooms = new Room[freeRoomsCount + 1];
+				for (size_t j = 0; j < freeRoomsCount; j++)
+				{
+					newFreeRooms[j] = freeRooms[j];
+				}
+
+				newFreeRooms[freeRoomsCount] = rooms[i];
+				delete[] freeRooms;
+				freeRooms = newFreeRooms;
+				freeRoomsCount++;
+			}
+		}
+	}
+
+	return freeRooms;
+}
+
 void ReservationsController::viewFreeRoom(const Room* rooms, const size_t roomsCount) const{
 	size_t freeRoomsCount = 0;
 	cout << "Input date:" << endl;
@@ -83,6 +111,40 @@ void ReservationsController::viewFreeRoom(const Room* rooms, const size_t roomsC
 	const Room* freeRooms = getFreeFreeRoom(rooms, roomsCount, date, freeRoomsCount);
 	printFreeRoom(freeRooms, freeRoomsCount, date);
 	delete[] freeRooms;
+}
+
+void ReservationsController::searchFreeRoom(const Room* rooms, const size_t roomsCount) const
+{
+	size_t freeRoomsCount = 0;
+	cout << "Input period:" << endl;
+	Period period;
+	cin >> period;
+	cout << "Input min count of beds:" << endl;
+	size_t countOfBeds;
+	cin >> countOfBeds;
+	const Room* freeRooms = getFreeFreeRoom(rooms, roomsCount, period, freeRoomsCount, countOfBeds);
+	
+	if (freeRoomsCount == 0) {
+		cout << "No free room in period " << period << endl;
+	}
+	else {
+		printRoomWithMinBedsCount(freeRooms, freeRoomsCount);
+	}
+
+	delete[] freeRooms;
+}
+
+void ReservationsController::printRoomWithMinBedsCount(const Room* freeRooms, const size_t freeRoomsCount) const {
+	Room roomWithMinBedsCount = freeRooms[0];
+	for (size_t i = 0; i < freeRoomsCount; i++)
+	{
+		if (freeRooms[i].getBedsCount() < roomWithMinBedsCount.getBedsCount())
+		{
+			roomWithMinBedsCount = freeRooms[i];
+		}
+	}
+
+	cout << "Free room is: " << roomWithMinBedsCount<<endl;
 }
 
 void ReservationsController::printFreeRoom(const Room* freeRooms, const size_t freeRoomsCount, const Date& date) const{
