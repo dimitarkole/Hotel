@@ -25,6 +25,7 @@ public:
 	void remove(size_t reservationId);
 
 	bool isRoomFree(size_t roomId, const Date& date) const;
+	bool isRoomFree(size_t roomId, const Period& period) const;
 	void create(const Reservation& reservation);
 	const Reservation* getReservatedRoomsForPeriod(const Period& Period, size_t& reservationsCount) const;
 	bool hasReservation(size_t reservationId) const;

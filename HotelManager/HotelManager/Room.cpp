@@ -38,7 +38,7 @@ void Room::setBedsCount(const size_t bedsCount) {
 }
 
 ostream& operator<<(ostream& out, const Room& room) {
-	out << room.getId() << " " << room.getBedsCount();
+	out << "roomId: "<<room.getId() << " beds count: " << room.getBedsCount();
 	return out;
 }
 

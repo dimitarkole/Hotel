@@ -13,6 +13,8 @@ private:
 	void readFromFile();
 	void printFreeRoom(const Room* freeRooms, const size_t freeRoomsCount, const Date& date) const;
 	const Room* getFreeFreeRoom(const Room* rooms, const size_t roomsCount, const Date& date, size_t& freeRoomsCount) const;
+	const Room* getFreeFreeRoom(const Room* rooms, const size_t roomsCount, const Period& period, size_t& freeRoomsCount, const size_t minCountOfBeds) const;
+	void printRoomWithMinBedsCount(const Room* freeRooms, const size_t freeRoomsCount) const;
 public:
 	ReservationsController();
 	
@@ -21,5 +23,6 @@ public:
 	void writeToConsole() const;
 	void writeToFileReservetedRoomsInPeriod() const;
 	void viewFreeRoom(const Room* rooms, const size_t roomsCount) const;
+	void searchFreeRoom(const Room* rooms, const size_t roomsCount) const;
 	void removeReservation();
 };

@@ -31,10 +31,11 @@ int main()
                 break;
             }
             case 9: reservationsController.writeToFileReservetedRoomsInPeriod(); break;
-            case 10: closedRoomsController.readFromConsole(); break;
-            case 11: closedRoomsController.writeToConsole(); break;
-            case 12: closedRoomsController.writeToFile(); break;
-            case 13:
+            case 10: reservationsController.searchFreeRoom(roomController.getRooms(), roomController.getRoomsCount()); break;
+            case 11: closedRoomsController.readFromConsole(); break;
+            case 12: closedRoomsController.writeToConsole(); break;
+            case 13: closedRoomsController.writeToFile(); break;
+            case 14:
             {
                 roomController.writeToFile();
                 reservationsController.writeToFile();
@@ -71,10 +72,11 @@ void printCommands()
     cout << "7 - View all reservated rooms " << endl;
     cout << "8 - Get all free rooms for date" << endl;
     cout << "9 - Write to file all reservated rooms in period" << endl;
+    cout << "10 - Search free room in period" << endl;
     cout << "Close room:" << endl;
-    cout << "10 - Close room" << endl;
-    cout << "11 - View all closed rooms " << endl;
-    cout << "12 - Save closed rooms to file " << endl;
+    cout << "11 - Close room" << endl;
+    cout << "12 - View all closed rooms " << endl;
+    cout << "13 - Save closed rooms to file " << endl;
 
-    cout << "13 - Save all changes" << endl;
+    cout << "14 - Save all changes" << endl;
 }
