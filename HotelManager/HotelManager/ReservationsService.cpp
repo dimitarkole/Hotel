@@ -1,43 +1,31 @@
+#pragma warning(disable:4996)
 #include "ReservationsService.h"
 
-#include<fstream>
-#include<iostream>
-using namespace std;
 const size_t MIN_CAPACITY = 8;
 const size_t MAX_GOST_NAME_LEN = 1024, MAX_DESCRIPTION_LEN = 8 * 1024;
 
-void ReservationService::free() {
-	for (size_t i = 0; i < capacity; i++)
-	{
-		delete reservations[i];
-	}
-
+void ReservationsService::free() {
 	delete[] reservations;
 }
 
-void ReservationService::copyFrom(const ReservationService& other) {
+void ReservationsService::copyFrom(const ReservationsService& other) {
 	capacity = other.capacity;
 	reservationsCount = 0;
-	reservations = new Reservation*[capacity];
+	reservations = new Reservation[capacity];
 	for (size_t i = 0; i < other.capacity; i++)
 	{
-		addReservation(*other.reservations[i]);
+		create(other.reservations[i]);
 	}
 }
 
-void ReservationService::resize() {
-	size_t newCapacity = 3 * capacity / 4 < reservationsCount ? capacity * 2 : capacity / 2;
+void ReservationsService::resize() {
+	size_t newCapacity = 3 * capacity / 4 <= reservationsCount ? capacity * 2 : capacity / 2;
 	if (newCapacity >= MIN_CAPACITY)
 	{
-		Reservation** newReservations = new Reservation*[newCapacity];
+		Reservation* newReservations = new Reservation[newCapacity];
 		for (size_t i = 0; i < reservationsCount; i++)
 		{
 			newReservations[i] = reservations[i];
-		}
-
-		for (size_t i = 0; i < capacity; i++)
-		{
-			delete reservations[i];
 		}
 
 		delete[] reservations;
@@ -46,21 +34,21 @@ void ReservationService::resize() {
 	}
 }
 
-ReservationService::ReservationService() {
+ReservationsService::ReservationsService() {
 	capacity = MIN_CAPACITY;
 	reservationsCount = 0;
-	reservations = new Reservation*[capacity];
+	reservations = new Reservation[capacity];
 }
 
-ReservationService::ReservationService(const ReservationService& other) {
+ReservationsService::ReservationsService(const ReservationsService& other) {
 	copyFrom(other);
 }
 
-ReservationService::~ReservationService() {
+ReservationsService::~ReservationsService() {
 	free();
 }
 
-ReservationService& ReservationService::operator=(const ReservationService& other) {
+ReservationsService& ReservationsService::operator=(const ReservationsService& other) {
 	if (this != &other)
 	{
 		free();
@@ -70,7 +58,7 @@ ReservationService& ReservationService::operator=(const ReservationService& othe
 	return *this;
 }
 
-const Reservation* ReservationService::operator[](const size_t index)const {
+const Reservation& ReservationsService::operator[](const size_t index)const {
 	if (index >= reservationsCount)
 	{
 		throw "Invalid index";
@@ -79,7 +67,7 @@ const Reservation* ReservationService::operator[](const size_t index)const {
 	return reservations[index];
 }
 
-Reservation* ReservationService::operator[](const size_t index) {
+Reservation& ReservationsService::operator[](const size_t index) {
 	if (index >= reservationsCount)
 	{
 		throw "Invalid index";
@@ -88,102 +76,156 @@ Reservation* ReservationService::operator[](const size_t index) {
 	return reservations[index];
 }
 
-void ReservationService::addReservation(const Reservation& reservation) {
-	reservations[reservationsCount] = new Reservation(reservation);
+bool ReservationsService::isRoomFree(size_t roomId, const Date& date) const {
+	for (size_t i = 0; i < reservationsCount; i++)
+	{
+		if (reservations[i].getRoomId() == roomId)
+		{
+			if (reservations[i].getPeriod().getFrom() < date && date < reservations[i].getPeriod().getTo())
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+bool ReservationsService::isRoomFree(size_t roomId, const Period& period) const {
+	const Date from = period.getFrom();
+	const Date to = period.getTo();
+
+	for (size_t i = 0; i < reservationsCount; i++)
+	{
+		if (reservations[i].getRoomId() == roomId)
+		{
+			 if ((reservations[i].getPeriod().getFrom() < to && to <= reservations[i].getPeriod().getTo())
+				|| (reservations[i].getPeriod().getFrom() <= from && from < reservations[i].getPeriod().getTo()))
+			{
+				return false;
+			}
+			
+		}
+	}
+
+	return true;
+}
+
+void ReservationsService::create(const Reservation& reservation) {
+	reservations[reservationsCount] = reservation;
 	reservationsCount++;
 	resize();
 }
 
-const Reservation** ReservationService::getReservations() const {
+const Reservation* ReservationsService::getReservatedRoomsForPeriod(const Period& period, size_t& reservatedRoomsCount) const
+{
+	reservatedRoomsCount = 0;
+	Reservation* reservatedRoomsInPeriod = new Reservation[reservatedRoomsCount];
+	for (size_t i = 0; i < reservationsCount; i++)
+	{
+		if (reservations[i].isReservationInPeriod(period))
+		{
+			Reservation* newReservatedRoomsInPeriod = new Reservation[reservatedRoomsCount + 1];
+			for (size_t j = 0; j < reservatedRoomsCount; j++)
+			{
+				newReservatedRoomsInPeriod[j] = reservatedRoomsInPeriod[j];
+			}
+
+			newReservatedRoomsInPeriod[reservatedRoomsCount] = reservations[i];
+			delete[] reservatedRoomsInPeriod;
+			reservatedRoomsInPeriod = newReservatedRoomsInPeriod;
+			reservatedRoomsCount++;
+		}
+	}
+
+	return reservatedRoomsInPeriod;
+}
+
+const Reservation* ReservationsService::getReservations() const {
 	return reservations;
 }
 
-const size_t ReservationService::getCapacity() const {
+const size_t ReservationsService::getCapacity() const {
 	return capacity;
 }
 
-const size_t ReservationService::getReservationsCount() const {
+const size_t ReservationsService::getReservationsCount() const {
 	return reservationsCount;
 }
 
-ostream& operator<<(ostream& out, const ReservationService& reservationService) {
-	size_t reservationsCount = reservationService.getReservationsCount();
-	out<< reservationsCount;
+bool ReservationsService::hasReservation(size_t reservationId) const {
 	for (size_t i = 0; i < reservationsCount; i++)
 	{
-		out << reservationService[i];
+		if (reservations[i].getId() == reservationId) {
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+ostream& operator<<(ostream& out, const ReservationsService& reservationsService) {
+	size_t reservationsCount = reservationsService.getReservationsCount();
+	out<< "Reservations count: " << reservationsCount << endl;
+	for (size_t i = 0; i < reservationsCount; i++)
+	{
+		out << reservationsService[i]<<endl;
 	}
 
 	return out;
 }
 
-ofstream& operator<<(ofstream& out, const ReservationService& reservationService) {
-	size_t reservationsCount = reservationService.reservationsCount;
-	out.write((const char*)reservationsCount, sizeof(reservationsCount));
+ofstream& operator<<(ofstream& out, const ReservationsService& reservationsService) {
+	size_t reservationsCount = reservationsService.reservationsCount;
+	out.write((const char*)&reservationsCount, sizeof(reservationsCount));
 	for (size_t i = 0; i < reservationsCount; i++)
 	{
-		Reservation reservation = Reservation(*reservationService[i]);
-		size_t roomId = reservation.getRoomId(), gostNameLen = reservation.getGostNameLen(), descriptionLen = reservation.getDescriptionLen();
-		out.write((const char*)roomId, sizeof(roomId));
-		out.write((const char*)gostNameLen, sizeof(gostNameLen));
-		out.write((const char*) reservation.getGostName(), gostNameLen);
-		out << reservation.getFrom();
-		out << reservation.getTo();
-		out.write((const char*)descriptionLen, sizeof(descriptionLen));
-		out.write((const char*)reservation.getDescription(), descriptionLen);
+		out << reservationsService[i];
 	}
 
 	return out;
 }
 
-istream& operator>>(istream& in, ReservationService& reservationService) {
+istream& operator>>(istream& in, ReservationsService& reservationsService) {
+	// size_t reservationsCount;
+	// cout << "Input reservations count:" << endl;
+	// in >> reservationsCount;
+	// for (size_t i = 0; i < reservationsCount; i++)
+	// {
+		Reservation reservation;
+		in >> reservation;
+		reservationsService.create(reservation);
+	// }
+	return in;
+}
+
+ifstream& operator>>(ifstream& in, ReservationsService& reservationsService) {
 	size_t reservationsCount;
-	in >> reservationsCount;
+	in.read((char*)&reservationsCount, sizeof(reservationsCount));
 	for (size_t i = 0; i < reservationsCount; i++)
 	{
-		size_t roomId;
-		in >> roomId;
-		char* gostName = new char[MAX_GOST_NAME_LEN + 1];
-		in.getline(gostName, MAX_GOST_NAME_LEN);
-		gostName[MAX_GOST_NAME_LEN] = 0;
-		Date from, to;
-		in >> from;
-		in >> to;
-		char* description = new char[MAX_DESCRIPTION_LEN + 1];
-		in.getline(description, MAX_DESCRIPTION_LEN);
-		description[MAX_DESCRIPTION_LEN] = 0;
-		Reservation reservation(roomId, from, to, gostName, description);
-		reservationService.addReservation(reservation);
-		delete[] gostName;
-		delete[] description;
+		Reservation reservation;
+		in >> reservation;
+		reservationsService.create(reservation);
 	}
 
 	return in;
 }
 
-ifstream& operator>>(ifstream& in, ReservationService& reservationService) {
-	size_t reservationsCount;
-	in.read((char*) reservationsCount, sizeof(reservationsCount));
-	for (size_t i = 0; i < reservationsCount; i++)
+void ReservationsService::remove(size_t reservationId) {
+	size_t reservationIndex = 0;
+	for (size_t i = 0; i < reservationsCount - 1; i++)
 	{
-		size_t roomId, gostNameLen, descriptionLen;
-		in.read((char*)roomId, sizeof(roomId));
-		in.read((char*)gostNameLen, sizeof(gostNameLen));
-		char* gostName = new char[gostNameLen + 1];
-		in.getline(gostName, gostNameLen);
-		gostName[gostNameLen] = 0;
-		Date from, to;
-		in >> from;
-		in >> to;		
-		in.read((char*)descriptionLen, sizeof(descriptionLen));
-		char* description = new char[descriptionLen + 1];
-		in.read(description, descriptionLen);
-		description[descriptionLen] = 0;
-		Reservation reservation(roomId, from, to, gostName, description);
-		reservationService.addReservation(reservation);
-		delete[] gostName;
-		delete[] description;
+		if (reservations[i].getId() == reservationId) {
+			reservationIndex = i;
+		}
 	}
 
-	return in;
+	for (size_t i = reservationIndex; i < reservationsCount - 1; i++)
+	{
+		reservations[i] = reservations[i + 1];
+	}
+
+	resize();
+	reservationsCount--;
 }

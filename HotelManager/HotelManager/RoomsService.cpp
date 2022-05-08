@@ -1,8 +1,10 @@
+#pragma warning(disable:4996)
 #include "RoomsService.h"
 
 #include<fstream>
 #include<iostream>
 using namespace std;
+
 const size_t MIN_CAPACITY = 8;
 
 void RoomsService::free() {
@@ -15,12 +17,12 @@ void RoomsService::copyFrom(const RoomsService& other) {
 	rooms = new Room[capacity];
 	for (size_t i = 0; i < other.roomsCount; i++)
 	{
-		addRoom(other.rooms[i]);
+		create(other.rooms[i]);
 	}
 }
 
 void RoomsService::resize() {
-	size_t newCapacity = 3 * capacity / 4 < roomsCount ? capacity * 2 : capacity / 2;
+	size_t newCapacity = 3*capacity / 4 <= roomsCount ? capacity * 2 : capacity / 2;
 	if (newCapacity >= MIN_CAPACITY)
 	{
 		Room* newRooms = new Room[newCapacity];
@@ -89,10 +91,10 @@ const size_t RoomsService::getRoomsCount() const {
 	return roomsCount;
 }
 	
-void RoomsService::addRoom(const Room& room) {
+void RoomsService::create(const Room& room) {
+	resize();
 	rooms[roomsCount] = room;
 	roomsCount++;
-	resize();
 	//cout << "This element is added successful!" << endl;
 }
 
@@ -111,11 +113,7 @@ ofstream& operator<<(ofstream& out, const RoomsService& roomsService) {
 	out.write((const char*)&roomsCount, sizeof(roomsCount));
 	for (size_t i = 0; i < roomsService.roomsCount; i++)
 	{
-		Room room = roomsService[i];
-		size_t roomId = room.getId();
-		size_t bedsCount = room.getBedsCount();
-		out.write((const char*)&roomId, sizeof(roomId));
-		out.write((const char*)&bedsCount, sizeof(bedsCount));
+		out << roomsService[i];
 	}
 
 	return out;
@@ -123,12 +121,14 @@ ofstream& operator<<(ofstream& out, const RoomsService& roomsService) {
 
 istream& operator>>(istream& in, RoomsService& roomsService) {
 	size_t roomsCount;
+	cout << "Input rooms count"<< endl;
 	in >> roomsCount;
 	for (size_t i = 0; i < roomsCount; i++)
 	{
-		in>> roomsService[i];
-		roomsService.roomsCount++;
-		roomsService.resize();
+		cout << "Input room's count of beds: " << endl;
+		Room room;
+		in >> room;
+		roomsService.create(room);
 	}
 
 	return in;
@@ -140,12 +140,8 @@ ifstream& operator>>(ifstream& in, RoomsService& roomsService) {
 	for (size_t i = 0; i < roomsCount; i++)
 	{
 		Room room;
-		size_t roomId, bedsCount;
-		in.read((char*)roomId, sizeof(roomId));
-		in.read((char*)bedsCount, sizeof(bedsCount));
-		room.setBedsCount(bedsCount);
-		room.setId(roomId);
-		roomsService.addRoom(room);
+		in >> room;
+		roomsService.create(room);
 	}
 
 	return in;

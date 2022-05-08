@@ -1,8 +1,19 @@
+#pragma warning(disable:4996)
 #include<iostream>
 #include<fstream>
+
 #include "Room.h"
+
 using namespace std;
-Room::Room(): Room(0,0) {
+
+size_t Room::maxId = 0;
+
+Room::Room(): Room(0) {
+}
+
+Room::Room(const size_t bedsCount) {
+	setId(maxId++);
+	setBedsCount(bedsCount);
 }
 
 Room::Room(const size_t id, const size_t bedsCount) {
@@ -27,7 +38,7 @@ void Room::setBedsCount(const size_t bedsCount) {
 }
 
 ostream& operator<<(ostream& out, const Room& room) {
-	out << room.getId() << " " << room.getBedsCount();
+	out << "roomId: "<<room.getId() << " beds count: " << room.getBedsCount();
 	return out;
 }
 
@@ -40,18 +51,19 @@ ofstream& operator<<(ofstream& out, const Room& room) {
 }
 
 istream& operator>>(istream& in, Room& room) {
-	size_t roomId, bedsCount;
-	in >> roomId >> bedsCount;
+	size_t bedsCount;
+	in >> bedsCount;
 	room.setBedsCount(bedsCount);
-	room.setId(roomId);
+	room.setId(room.maxId++);
 	return in;
 }
 
 ifstream& operator>>(ifstream& in, Room& room) {
 	size_t roomId, bedsCount;
-	in.read((char*)roomId, sizeof(roomId));
-	in.read((char*)bedsCount, sizeof(bedsCount));
+	in.read((char*)&roomId, sizeof(roomId));
+	in.read((char*)&bedsCount, sizeof(bedsCount));
 	room.setBedsCount(bedsCount);
 	room.setId(roomId);
+	room.maxId = room.maxId < roomId ? roomId : room.maxId;
 	return in;
 }

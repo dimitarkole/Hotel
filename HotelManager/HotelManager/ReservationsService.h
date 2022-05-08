@@ -1,31 +1,36 @@
 #pragma once
+#pragma warning(disable:4996)
 #include<iostream>
 #include "Reservation.h"
 using namespace std;
-class ReservationService
+class ReservationsService
 {
 private:
-	Reservation **reservations;
+	Reservation *reservations;
 	size_t capacity, reservationsCount;
 	void free();
 	void resize();
-	void copyFrom(const ReservationService& other);
+	void copyFrom(const ReservationsService& other);
 public:
-	ReservationService();
-	ReservationService(const ReservationService& other);
-	~ReservationService();
-	ReservationService& operator=(const ReservationService& other);
-	const Reservation* operator[](const size_t index)const;
-	Reservation* operator[](const size_t index);
+	ReservationsService();
+	ReservationsService(const ReservationsService& other);
+	~ReservationsService();
+	ReservationsService& operator=(const ReservationsService& other);
+	const Reservation& operator[](const size_t index)const;
+	Reservation& operator[](const size_t index);
 
-	const Reservation** getReservations() const;
+	const Reservation* getReservations() const;
 	const size_t getCapacity() const;
 	const size_t getReservationsCount() const;
+	void remove(size_t reservationId);
 
-	void addReservation(const Reservation& reservation);
-
-	friend ostream& operator<<(ostream& out, const ReservationService& reservation);
-	friend ofstream& operator<<(ofstream& out, const ReservationService& reservation);
-	friend istream& operator>>(istream& in, ReservationService& reservation);
-	friend ifstream& operator>>(ifstream& in, ReservationService& reservation);
+	bool isRoomFree(size_t roomId, const Date& date) const;
+	bool isRoomFree(size_t roomId, const Period& period) const;
+	void create(const Reservation& reservation);
+	const Reservation* getReservatedRoomsForPeriod(const Period& Period, size_t& reservationsCount) const;
+	bool hasReservation(size_t reservationId) const;
+	friend ostream& operator<<(ostream& out, const ReservationsService& reservation);
+	friend ofstream& operator<<(ofstream& out, const ReservationsService& reservation);
+	friend istream& operator>>(istream& in, ReservationsService& reservation);
+	friend ifstream& operator>>(ifstream& in, ReservationsService& reservation);
 };

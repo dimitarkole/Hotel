@@ -140,23 +140,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CloseRoom.cpp" />
+    <ClCompile Include="CloseRoomsController.cpp" />
+    <ClCompile Include="CloseRoomsService.cpp" />
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="HotelManager.cpp" />
+    <ClCompile Include="Period.cpp" />
     <ClCompile Include="Reservation.cpp" />
+    <ClCompile Include="ReservationsController.cpp" />
     <ClCompile Include="ReservationsService.cpp" />
     <ClCompile Include="Room.cpp" />
+    <ClCompile Include="RoomsController.cpp" />
     <ClCompile Include="RoomsService.cpp" />
     <ClCompile Include="Time.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CloseRoom.h" />
+    <ClInclude Include="CloseRoomsController.h" />
+    <ClInclude Include="CloseRoomsService.h" />
     <ClInclude Include="Date.h" />
+    <ClInclude Include="Period.h" />
     <ClInclude Include="Reservation.h" />
+    <ClInclude Include="ReservationsController.h" />
     <ClInclude Include="ReservationsService.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="RoomsController.h" />
     <ClInclude Include="RoomsService.h" />
     <ClInclude Include="Time.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\closedRooms.dat" />
+    <None Include="Data\reservations.dat" />
+    <None Include="Data\rooms.dat" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,6 +1,8 @@
 #pragma once
+#pragma warning(disable:4996)
 #include<iostream>
 #include "Room.h"
+#include "Date.h"
 using namespace std;
 
 class RoomsService
@@ -8,13 +10,16 @@ class RoomsService
 private:
 	Room* rooms;
 	size_t capacity, roomsCount;
+	
 	void free();
 	void resize();
 	void copyFrom(const RoomsService& other);
+	void create(const Room& room);
 public:
 	RoomsService();
 	RoomsService(const RoomsService& other);
 	~RoomsService();
+
 	RoomsService& operator=(const RoomsService& other);
 	const Room& operator[](const size_t index)const;
 	Room& operator[](const size_t index);
@@ -22,8 +27,6 @@ public:
 	const Room* getRoom() const;
 	const size_t getCapacity() const;
 	const size_t getRoomsCount() const;
-
-	void addRoom(const Room& room);
 
 	friend ostream& operator<<(ostream& out, const RoomsService& roomsService);
 	friend ofstream& operator<<(ofstream& out, const RoomsService& roomsService);
