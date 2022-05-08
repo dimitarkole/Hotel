@@ -1,8 +1,8 @@
 #pragma once
-#pragma once
 #pragma warning(disable:4996)
 #include<iostream>
 #include "CloseRoom.h"
+#include "Date.h"
 using namespace std;
 class CloseRoomsService
 {

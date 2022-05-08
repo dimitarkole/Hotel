@@ -52,7 +52,3 @@ void CloseRoomsController::writeToFile() const {
 void CloseRoomsController::writeToConsole() const {
 	cout << closeRoomsService;
 }
-
-void closeRoom() {
-
-}

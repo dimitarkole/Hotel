@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #pragma warning(disable:4996)
 
 #include "CloseRoomsService.h"
@@ -13,7 +12,6 @@ public:
 	CloseRoomsController();
 
 	void readFromConsole();
-	void closeRoom();
 	void writeToFile() const;
 	void writeToConsole() const;
 };

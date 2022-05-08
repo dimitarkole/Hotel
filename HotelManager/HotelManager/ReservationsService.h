@@ -22,10 +22,12 @@ public:
 	const Reservation* getReservations() const;
 	const size_t getCapacity() const;
 	const size_t getReservationsCount() const;
+	void remove(size_t reservationId);
 
 	bool isRoomFree(size_t roomId, const Date& date) const;
 	void create(const Reservation& reservation);
-
+	const Reservation* getReservatedRoomsForPeriod(const Period& Period, size_t& reservationsCount) const;
+	bool hasReservation(size_t reservationId) const;
 	friend ostream& operator<<(ostream& out, const ReservationsService& reservation);
 	friend ofstream& operator<<(ofstream& out, const ReservationsService& reservation);
 	friend istream& operator>>(istream& in, ReservationsService& reservation);

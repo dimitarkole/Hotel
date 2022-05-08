@@ -2,6 +2,7 @@
 #pragma warning(disable:4996)
 #include<iostream>
 #include "Room.h"
+#include "Date.h"
 using namespace std;
 
 class RoomsService
