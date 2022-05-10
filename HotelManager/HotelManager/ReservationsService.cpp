@@ -76,7 +76,7 @@ Reservation& ReservationsService::operator[](const size_t index) {
 	return reservations[index];
 }
 
-bool ReservationsService::isRoomFree(size_t roomId, const Date& date) const {
+bool ReservationsService::isRoomFree(const size_t roomId, const Date& date) const {
 	for (size_t i = 0; i < reservationsCount; i++)
 	{
 		if (reservations[i].getRoomId() == roomId)
@@ -91,7 +91,7 @@ bool ReservationsService::isRoomFree(size_t roomId, const Date& date) const {
 	return true;
 }
 
-bool ReservationsService::isRoomFree(size_t roomId, const Period& period) const {
+bool ReservationsService::isRoomFree(const size_t roomId, const Period& period) const {
 	const Date from = period.getFrom();
 	const Date to = period.getTo();
 
@@ -99,12 +99,11 @@ bool ReservationsService::isRoomFree(size_t roomId, const Period& period) const 
 	{
 		if (reservations[i].getRoomId() == roomId)
 		{
-			 if ((reservations[i].getPeriod().getFrom() < to && to <= reservations[i].getPeriod().getTo())
-				|| (reservations[i].getPeriod().getFrom() <= from && from < reservations[i].getPeriod().getTo()))
+			if((reservations[i].getPeriod().getFrom() > from && to <= reservations[i].getPeriod().getTo())
+				|| (from < reservations[i].getPeriod().getFrom() && reservations[i].getPeriod().getTo() < to))
 			{
 				return false;
 			}
-			
 		}
 	}
 
@@ -212,7 +211,7 @@ ifstream& operator>>(ifstream& in, ReservationsService& reservationsService) {
 	return in;
 }
 
-void ReservationsService::remove(size_t reservationId) {
+void ReservationsService::remove(const size_t reservationId) {
 	size_t reservationIndex = 0;
 	for (size_t i = 0; i < reservationsCount - 1; i++)
 	{

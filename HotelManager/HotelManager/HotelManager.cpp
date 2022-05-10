@@ -27,11 +27,12 @@ int main()
             case 6: reservationsController.writeToFile(); break;
             case 7: reservationsController.writeToConsole(); break;
             case 8: {
-                reservationsController.viewFreeRoom(roomController.getRooms(), roomController.getRoomsCount());
+
+                reservationsController.viewFreeRoom(roomController.getRooms(), roomController.getRoomsCount(), closedRoomsController.getClosedRooms(), closedRoomsController.getClosedRoomsCount());
                 break;
             }
             case 9: reservationsController.writeToFileReservetedRoomsInPeriod(); break;
-            case 10: reservationsController.searchFreeRoom(roomController.getRooms(), roomController.getRoomsCount()); break;
+            case 10: reservationsController.searchFreeRoom(roomController.getRooms(), roomController.getRoomsCount(), closedRoomsController.getClosedRooms(), closedRoomsController.getClosedRoomsCount()); break;
             case 11: closedRoomsController.readFromConsole(); break;
             case 12: closedRoomsController.writeToConsole(); break;
             case 13: closedRoomsController.writeToFile(); break;

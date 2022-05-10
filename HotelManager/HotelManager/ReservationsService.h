@@ -11,6 +11,7 @@ private:
 	void free();
 	void resize();
 	void copyFrom(const ReservationsService& other);
+
 public:
 	ReservationsService();
 	ReservationsService(const ReservationsService& other);
@@ -22,10 +23,10 @@ public:
 	const Reservation* getReservations() const;
 	const size_t getCapacity() const;
 	const size_t getReservationsCount() const;
-	void remove(size_t reservationId);
+	void remove(const size_t reservationId);
 
-	bool isRoomFree(size_t roomId, const Date& date) const;
-	bool isRoomFree(size_t roomId, const Period& period) const;
+	bool isRoomFree(const size_t roomId, const Date& date) const;
+	bool isRoomFree(const size_t roomId, const Period& period) const;
 	void create(const Reservation& reservation);
 	const Reservation* getReservatedRoomsForPeriod(const Period& Period, size_t& reservationsCount) const;
 	bool hasReservation(size_t reservationId) const;
