@@ -18,6 +18,8 @@ public:
 	void setFrom(const Date& from);
 	void setTo(const Date& to);
 
+	void saveToFile(ofstream& out) const;
+
 	Period& operator=(const Period& other);
 
 	friend ostream& operator<<(ostream& out, const Period& period); // for console

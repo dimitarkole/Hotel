@@ -29,6 +29,11 @@ void Period::setTo(const Date& to) {
 	this->to = to;
 }
 
+void Period::saveToFile(ofstream& out) const {
+	out << " From: " << from;
+	out << " To: " << to;
+}
+
 Period& Period::operator=(const Period& period)
 {
 	from = period.from;

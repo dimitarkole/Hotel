@@ -185,6 +185,16 @@ ofstream& operator<<(ofstream& out, const ReservationsService& reservationsServi
 	return out;
 }
 
+void  ReservationsService::saveToTextFile(ofstream& out) const {
+	size_t reservationsCount = getReservationsCount();
+	out << "Reservations count: " << reservationsCount << endl;
+	for (size_t i = 0; i < reservationsCount; i++)
+	{
+		this[i].saveToTextFile(out);
+		out << endl;
+	}
+}
+
 istream& operator>>(istream& in, ReservationsService& reservationsService) {
 	// size_t reservationsCount;
 	// cout << "Input reservations count:" << endl;

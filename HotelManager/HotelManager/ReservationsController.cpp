@@ -278,12 +278,12 @@ void ReservationsController::writeToFileReservetedRoomsInPeriod() const
 		return;
 	}
 
-	file.write((const char*)&reservatedRoomsCount, sizeof(reservatedRoomsCount));
-	// cout << "reservatedRoomsCount:" << reservatedRoomsCount << endl;
+	file << "Reservations count: " << reservatedRoomsCount << endl;
 	for (size_t i = 0; i < reservatedRoomsCount; i++)
 	{
 		// cout << "reservatedRooms[" << i<<"]:" << reservatedRooms[i] << endl;
-		file << reservatedRooms[i];
+		reservatedRooms[i].saveToTextFile(file);
+		file << endl;
 	}
 
 	delete[] reservatedRooms;

@@ -126,6 +126,15 @@ const size_t Reservation::getDescriptionLen() const {
 	return descriptionLen;
 }
 
+void Reservation::saveToTextFile(ofstream& out) const {
+	out << "id: " << id;
+	out << " room id: " << roomId;
+	out << " gost name:" << gostName;
+	period.saveToFile(out);
+	out << " description: ";
+	out << description;
+}
+
 ostream& operator<<(ostream& out, const Reservation& reservation) {
 	out << "id: " << reservation.id;
 	out << " room id: " << reservation.roomId;

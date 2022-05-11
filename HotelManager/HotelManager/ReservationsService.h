@@ -30,8 +30,10 @@ public:
 	void create(const Reservation& reservation);
 	const Reservation* getReservatedRoomsForPeriod(const Period& Period, size_t& reservationsCount) const;
 	bool hasReservation(size_t reservationId) const;
-	friend ostream& operator<<(ostream& out, const ReservationsService& reservation);
-	friend ofstream& operator<<(ofstream& out, const ReservationsService& reservation);
-	friend istream& operator>>(istream& in, ReservationsService& reservation);
-	friend ifstream& operator>>(ifstream& in, ReservationsService& reservation);
+	void saveToTextFile(ofstream& out) const;
+
+	friend ostream& operator<<(ostream& out, const ReservationsService& reservationsService);
+	friend ofstream& operator<<(ofstream& out, const ReservationsService& reservationsService);
+	friend istream& operator>>(istream& in, ReservationsService& reservationsService);
+	friend ifstream& operator>>(ifstream& in, ReservationsService& reservationsService);
 };
