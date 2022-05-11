@@ -21,7 +21,6 @@ void CloseRoomsController::readFromFile() {
 	try
 	{
 		file >> closeRoomsService;
-		cout << "Here";
 		file.close();
 	}
 	catch (const std::exception&)
@@ -51,4 +50,12 @@ void CloseRoomsController::writeToFile() const {
 
 void CloseRoomsController::writeToConsole() const {
 	cout << closeRoomsService;
+}
+
+const CloseRoom* CloseRoomsController::getClosedRooms() const {
+	return closeRoomsService.getCloseRooms();
+}
+
+const size_t CloseRoomsController::getClosedRoomsCount() const {
+	return closeRoomsService.getCloseRoomsCount();
 }
