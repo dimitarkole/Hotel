@@ -195,16 +195,27 @@ void  ReservationsService::saveToTextFile(ofstream& out) const {
 	}
 }
 
+
 istream& operator>>(istream& in, ReservationsService& reservationsService) {
 	// size_t reservationsCount;
 	// cout << "Input reservations count:" << endl;
 	// in >> reservationsCount;
 	// for (size_t i = 0; i < reservationsCount; i++)
 	// {
-		Reservation reservation;
+	Reservation reservation;
+	bool isCurrect = false;
+	do
+	{
 		in >> reservation;
-		reservationsService.create(reservation);
-	// }
+		isCurrect = reservationsService.isRoomFree(reservation.getRoomId(), reservation.getPeriod());
+		if(!isCurrect) // TO Do : room may be closed???
+		{
+			cout << "This room is not free on period!" << endl;
+		}
+	} while (!isCurrect);
+
+	reservationsService.create(reservation);
+	cout << "Successful created reservation!" << endl;
 	return in;
 }
 
