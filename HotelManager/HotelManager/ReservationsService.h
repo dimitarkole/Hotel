@@ -34,6 +34,6 @@ public:
 
 	friend ostream& operator<<(ostream& out, const ReservationsService& reservationsService);
 	friend ofstream& operator<<(ofstream& out, const ReservationsService& reservationsService);
-	friend istream& operator>>(istream& in, ReservationsService& reservationsService);
+	// friend istream& operator>>(istream& in, ReservationsService& reservationsService);
 	friend ifstream& operator>>(ifstream& in, ReservationsService& reservationsService);
 };

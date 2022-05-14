@@ -9,11 +9,12 @@ Engine* Engine::getInstance() {
     if (inst_ == NULL) {
         inst_ = new Engine();
     }
+
     return(inst_);
 }
 
 void Engine::run() {
-	 try
+    try
     {
         RoomsController roomController;
         ReservationsController reservationsController;
@@ -33,7 +34,6 @@ void Engine::run() {
             case 6: reservationsController.writeToFile(); break;
             case 7: reservationsController.writeToConsole(); break;
             case 8: {
-
                 reservationsController.viewFreeRoom(roomController.getRooms(), roomController.getRoomsCount(), closedRoomsController.getClosedRooms(), closedRoomsController.getClosedRoomsCount());
                 break;
             }
@@ -65,9 +65,8 @@ void Engine::printCommands()
 {
     cout << "Commands:" << endl;
     cout << "0 - End" << endl;
-
     cout << "Rooms:" << endl;
-    cout << "1 - Add new rooms from console" << endl;
+    cout << "1 - Add new room from console" << endl;
     cout << "2 - Save rooms to file " << endl;
     cout << "3 - View all rooms " << endl;
     cout << "Reservations:" << endl;
@@ -82,6 +81,5 @@ void Engine::printCommands()
     cout << "11 - Close room" << endl;
     cout << "12 - View all closed rooms " << endl;
     cout << "13 - Save closed rooms to file " << endl;
-
     cout << "14 - Save all changes" << endl;
 }

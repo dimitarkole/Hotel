@@ -27,7 +27,8 @@ void RoomsController::readFromFile() {
 }
 
 void RoomsController::readFromConsole() {
-	cin >> roomsService;
+	Room room;
+	roomsService.create(room);
 }
 
 void RoomsController::writeToFile() const {

@@ -29,7 +29,12 @@ void CloseRoomsController::readFromFile() {
 }
 
 void CloseRoomsController::readFromConsole() {
-	cin >> closeRoomsService;
+	CloseRoom closeRoom;
+	do {
+		cin >> closeRoom;
+	} while (!closeRoomsService.isRoomClosed(closeRoom.getRoomId(), closeRoom.getPeriod()));
+
+	closeRoomsService.create(closeRoom);
 }
 
 void CloseRoomsController::writeToFile() const {

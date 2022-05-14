@@ -119,20 +119,20 @@ ofstream& operator<<(ofstream& out, const RoomsService& roomsService) {
 	return out;
 }
 
-istream& operator>>(istream& in, RoomsService& roomsService) {
-	size_t roomsCount;
-	cout << "Input rooms count"<< endl;
-	in >> roomsCount;
-	for (size_t i = 0; i < roomsCount; i++)
-	{
-		cout << "Input room's count of beds: " << endl;
-		Room room;
-		in >> room;
-		roomsService.create(room);
-	}
-
-	return in;
-}
+//istream& operator>>(istream& in, RoomsService& roomsService) {
+//	/*size_t roomsCount;
+//	cout << "Input rooms count"<< endl;
+//	in >> roomsCount;
+//	for (size_t i = 0; i < roomsCount; i++)
+//	{*/
+//		cout << "Input room's count of beds: " << endl;
+//		Room room;
+//		in >> room;
+//		roomsService.create(room);
+//	//}
+//
+//	return in;
+//}
 
 ifstream& operator>>(ifstream& in, RoomsService& roomsService) {
 	size_t roomsCount;
