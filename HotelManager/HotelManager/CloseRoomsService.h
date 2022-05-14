@@ -25,10 +25,11 @@ public:
 	const size_t getCloseRoomsCount() const;
 
 	bool isRoomClosed(size_t roomId, const Date& date) const;
+	bool isRoomClosed(size_t roomId, const Period& period) const;
 	void create(const CloseRoom& closeRoom);
 
 	friend ostream& operator<<(ostream& out, const CloseRoomsService& closeRoomServices);
 	friend ofstream& operator<<(ofstream& out, const CloseRoomsService& closeRoomServices);
-	friend istream& operator>>(istream& in, CloseRoomsService& closeRoomServices);
+	//friend istream& operator>>(istream& in, CloseRoomsService& closeRoomServices);
 	friend ifstream& operator>>(ifstream& in, CloseRoomsService& closeRoomServices);
 };

@@ -94,6 +94,24 @@ bool CloseRoomsService::isRoomClosed(size_t roomId, const Date& date) const {
 	return true;
 }
 
+bool CloseRoomsService::isRoomClosed(size_t roomId, const Period& period) const {
+	const Date& from = period.getFrom();
+	const Date& to = period.getTo();
+	for (size_t i = 0; i < closeRoomsCount; i++)
+	{
+		if (closeRooms[i].getRoomId() == roomId)
+		{
+			if ((closeRooms[i].getPeriod().getFrom() > from && to <= closeRooms[i].getPeriod().getTo())
+				|| (from < closeRooms[i].getPeriod().getFrom() && closeRooms[i].getPeriod().getTo() < to))
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
 void CloseRoomsService::create(const CloseRoom& reservation) {
 	closeRooms[closeRoomsCount] = reservation;
 	closeRoomsCount++;
@@ -134,7 +152,7 @@ ofstream& operator<<(ofstream& out, const CloseRoomsService& closeRoomsService) 
 	return out;
 }
 
-istream& operator>>(istream& in, CloseRoomsService& closeRoomsService) {
+/*istream& operator>>(istream& in, CloseRoomsService& closeRoomsService) {
 	// size_t closeRoomsCount;
 	// cout << "Input closeRooms count:" << endl;
 	// in >> closeRoomsCount;
@@ -145,7 +163,7 @@ istream& operator>>(istream& in, CloseRoomsService& closeRoomsService) {
 	closeRoomsService.create(closeRoom);
 	// }
 	return in;
-}
+}*/
 
 ifstream& operator>>(ifstream& in, CloseRoomsService& closeRoomsService) {
 	size_t closeRoomsCount;

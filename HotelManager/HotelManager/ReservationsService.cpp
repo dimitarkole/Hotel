@@ -92,9 +92,8 @@ bool ReservationsService::isRoomFree(const size_t roomId, const Date& date) cons
 }
 
 bool ReservationsService::isRoomFree(const size_t roomId, const Period& period) const {
-	const Date from = period.getFrom();
-	const Date to = period.getTo();
-
+	const Date& from = period.getFrom();
+	const Date& to = period.getTo();
 	for (size_t i = 0; i < reservationsCount; i++)
 	{
 		if (reservations[i].getRoomId() == roomId)
@@ -196,7 +195,7 @@ void  ReservationsService::saveToTextFile(ofstream& out) const {
 }
 
 
-istream& operator>>(istream& in, ReservationsService& reservationsService) {
+/*istream& operator>>(istream& in, ReservationsService& reservationsService) {
 	// size_t reservationsCount;
 	// cout << "Input reservations count:" << endl;
 	// in >> reservationsCount;
@@ -217,7 +216,7 @@ istream& operator>>(istream& in, ReservationsService& reservationsService) {
 	reservationsService.create(reservation);
 	cout << "Successful created reservation!" << endl;
 	return in;
-}
+}*/
 
 ifstream& operator>>(ifstream& in, ReservationsService& reservationsService) {
 	size_t reservationsCount;

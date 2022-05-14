@@ -9,9 +9,6 @@ public:
     static Engine* getInstance();
 
     void run();
-    void setValue(int val) { value_ = val; }
-    int  getValue() { return(value_); }
-
 protected:
     int value_;
 

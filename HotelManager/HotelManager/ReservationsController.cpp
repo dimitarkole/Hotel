@@ -30,7 +30,12 @@ void ReservationsController::readFromFile() {
 }
 
 void ReservationsController::readFromConsole() {
-	cin >> reservationsService;
+	Reservation reservation;
+	do {
+		cin >> reservation;
+	} while (!reservationsService.isRoomFree(reservation.getRoomId(), reservation.getPeriod()));
+	
+	reservationsService.create(reservation);
 }
 
 void ReservationsController::writeToFile() const {
