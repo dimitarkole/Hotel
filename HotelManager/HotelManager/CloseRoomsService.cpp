@@ -51,6 +51,44 @@ CloseRoomsService::~CloseRoomsService() {
 	free();
 }
 
+bool CloseRoomsService::isRoomFree(const size_t roomId, const Period& period, const Reservation* reservations, const size_t reservationsCount) const {
+	const Date& from = period.getFrom();
+	const Date& to = period.getTo();
+	for (size_t i = 0; i < reservationsCount; i++)
+	{
+		if (reservations[i].getRoomId() == roomId)
+		{
+			const Date& reservationFrom = reservations[i].getPeriod().getFrom();
+			const Date& reservationTo = reservations[i].getPeriod().getTo();
+			if ((reservationFrom > from && from <= reservationTo)
+				|| (reservationFrom > to && to <= reservationTo)
+				|| (from <= reservationFrom && reservationFrom < to)
+				|| (from <= reservationTo && reservationTo < to))
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+const Reservation& CloseRoomsService::getReservationInPeriod(const size_t roomId, const Period& period, const Reservation* reservations, const size_t reservationsCount) const {
+	const Date& from = period.getFrom();
+	const Date& to = period.getTo();
+	for (size_t i = 0; i < reservationsCount; i++)
+	{
+		if (reservations[i].getRoomId() == roomId)
+		{
+			if ((reservations[i].getPeriod().getFrom() > from && to <= reservations[i].getPeriod().getTo())
+				|| (from < reservations[i].getPeriod().getFrom() && reservations[i].getPeriod().getTo() < to))
+			{
+				return *reservations;
+			}
+		}
+	}
+}
+
 CloseRoomsService& CloseRoomsService::operator=(const CloseRoomsService& other) {
 	if (this != &other)
 	{

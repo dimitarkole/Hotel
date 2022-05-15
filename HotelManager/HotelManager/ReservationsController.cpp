@@ -19,9 +19,9 @@ void ReservationsController::readFromFile() {
 		return;
 	}
 
-	file >> reservationsService;
 	try
 	{
+		file >> reservationsService;
 		file.close();
 	}
 	catch (const std::exception&)
@@ -29,11 +29,30 @@ void ReservationsController::readFromFile() {
 	}
 }
 
-void ReservationsController::readFromConsole() {
+const Reservation* ReservationsController::getReservations() const {
+	return reservationsService.getReservations();
+}
+
+const size_t ReservationsController::getReservationsCount() const {
+	return reservationsService.getReservationsCount();
+}
+
+void ReservationsController::readFromConsole(const CloseRoom* closedRooms, const size_t closedRoomsCount) {
 	Reservation reservation;
 	do {
+		cout << "Input reservation data:" << endl;
 		cin >> reservation;
-	} while (!reservationsService.isRoomFree(reservation.getRoomId(), reservation.getPeriod()));
+		if (!reservationsService.isRoomFree(reservation.getRoomId(), reservation.getPeriod()))
+		{
+			cout << "This room is reservated in this period!" << endl;
+		}
+		else if (isRoomClosed(reservation.getRoomId(), reservation.getPeriod(), closedRooms, closedRoomsCount)) {
+			cout << "This room is closed in this period!" << endl;
+		}
+		else {
+			break;
+		}
+	} while (true);
 	
 	reservationsService.create(reservation);
 }
@@ -44,9 +63,9 @@ void ReservationsController::writeToFile() const {
 		return;
 	}
 
-	file << reservationsService;
 	try
 	{
+		file << reservationsService;
 		file.close();
 	}
 	catch (const std::exception&)

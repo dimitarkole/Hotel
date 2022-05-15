@@ -2,6 +2,7 @@
 #pragma warning(disable:4996)
 
 #include "CloseRoom.h"
+#include "Reservation.h"
 #include "CloseRoomsService.h"
 
 class CloseRoomsController
@@ -12,7 +13,7 @@ private:
 public:
 	CloseRoomsController();
 
-	void readFromConsole();
+	void readFromConsole(const Reservation* reservations, const size_t reservationsCount);
 	void writeToFile() const;
 	void writeToConsole() const;
 	const CloseRoom* getClosedRooms() const;

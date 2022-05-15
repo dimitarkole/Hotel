@@ -29,7 +29,7 @@ void Engine::run() {
             case 1: roomController.readFromConsole(); break;
             case 2: roomController.writeToFile(); break;
             case 3: roomController.writeToConsole(); break;
-            case 4: reservationsController.readFromConsole(); break;
+            case 4: reservationsController.readFromConsole(closedRoomsController.getClosedRooms(), closedRoomsController.getClosedRoomsCount()); break;
             case 5: reservationsController.removeReservation(); break;
             case 6: reservationsController.writeToFile(); break;
             case 7: reservationsController.writeToConsole(); break;
@@ -39,7 +39,7 @@ void Engine::run() {
             }
             case 9: reservationsController.writeToFileReservetedRoomsInPeriod(); break;
             case 10: reservationsController.searchFreeRoom(roomController.getRooms(), roomController.getRoomsCount(), closedRoomsController.getClosedRooms(), closedRoomsController.getClosedRoomsCount()); break;
-            case 11: closedRoomsController.readFromConsole(); break;
+            case 11: closedRoomsController.readFromConsole(reservationsController.getReservations(), reservationsController.getReservationsCount()); break;
             case 12: closedRoomsController.writeToConsole(); break;
             case 13: closedRoomsController.writeToFile(); break;
             case 14:

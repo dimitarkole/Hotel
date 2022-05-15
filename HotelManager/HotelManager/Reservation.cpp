@@ -32,7 +32,6 @@ Reservation::Reservation() {
 	this->period = Period();
 	this->roomId = 0;
 	setGostName("");
-	setId(maxId++);
 	setDescription("");
 }
 
@@ -42,7 +41,6 @@ Reservation::Reservation(size_t roomId, const Period& period, char* gostName, ch
 	this->period = period;
 	this->roomId = roomId;
 	setGostName(gostName);
-	setId(maxId++);
 	setDescription(description);
 }
 

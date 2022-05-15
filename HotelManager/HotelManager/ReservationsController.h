@@ -23,7 +23,10 @@ private:
 public:
 	ReservationsController();
 	
-	void readFromConsole();
+	const Reservation* getReservations() const;
+	const size_t getReservationsCount() const;
+
+	void readFromConsole(const CloseRoom* closedRooms, const size_t closedRoomsCount);
 	void writeToFile() const;
 	void writeToConsole() const;
 	void writeToFileReservetedRoomsInPeriod() const;

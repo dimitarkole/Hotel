@@ -122,14 +122,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Data\rooms.dat">
-      <Filter>Data</Filter>
-    </None>
-    <None Include="Data\closedRooms.dat">
-      <Filter>Data</Filter>
-    </None>
-    <None Include="Data\reservations.dat">
-      <Filter>Data</Filter>
-    </None>
+    <None Include="Data\closedRooms.dat" />
+    <None Include="Data\reservations.dat" />
+    <None Include="Data\rooms.dat" />
   </ItemGroup>
 </Project>

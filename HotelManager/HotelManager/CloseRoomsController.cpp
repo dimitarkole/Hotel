@@ -28,14 +28,24 @@ void CloseRoomsController::readFromFile() {
 	}
 }
 
-void CloseRoomsController::readFromConsole() {
+void CloseRoomsController::readFromConsole(const Reservation* reservations, const size_t reservationsCount) {
 	CloseRoom closeRoom;
 	do {
 		cin >> closeRoom;
-	} while (!closeRoomsService.isRoomClosed(closeRoom.getRoomId(), closeRoom.getPeriod()));
+		if (closeRoomsService.isRoomClosed(closeRoom.getRoomId(), closeRoom.getPeriod()))
+		{
+			cout << "This room is closed in period" << endl;
+		}
+		if (!closeRoomsService.isRoomFree(closeRoom.getRoomId(), closeRoom.getPeriod(), reservations, reservationsCount))
+		{
+			cout << "This room is reservated in this period!" << endl;
+			cout << closeRoomsService.isRoomFree(closeRoom.getRoomId(), closeRoom.getPeriod(), reservations, reservationsCount) << endl;
+		}
+	} while (true);
 
 	closeRoomsService.create(closeRoom);
 }
+
 
 void CloseRoomsController::writeToFile() const {
 	ofstream file(CLOSED_ROOMS_FILE_NAME, ios::binary);

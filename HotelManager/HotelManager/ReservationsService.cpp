@@ -98,8 +98,12 @@ bool ReservationsService::isRoomFree(const size_t roomId, const Period& period) 
 	{
 		if (reservations[i].getRoomId() == roomId)
 		{
-			if((reservations[i].getPeriod().getFrom() > from && to <= reservations[i].getPeriod().getTo())
-				|| (from < reservations[i].getPeriod().getFrom() && reservations[i].getPeriod().getTo() < to))
+			const Date& reservationFrom = reservations[i].getPeriod().getFrom();
+			const Date& reservationTo = reservations[i].getPeriod().getTo();
+			if((reservationFrom > from && from <= reservationTo)
+				|| (reservationFrom > to && to <= reservationTo)
+				|| (from <= reservationFrom && reservationFrom < to)
+				|| (from <= reservationTo && reservationTo < to))
 			{
 				return false;
 			}

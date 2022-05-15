@@ -12,12 +12,10 @@ Room::Room(): Room(0) {
 }
 
 Room::Room(const size_t bedsCount) {
-	setId(maxId++);
 	setBedsCount(bedsCount);
 }
 
 Room::Room(const size_t id, const size_t bedsCount) {
-	setId(id);
 	setBedsCount(bedsCount);
 }
 
@@ -52,6 +50,7 @@ ofstream& operator<<(ofstream& out, const Room& room) {
 
 istream& operator>>(istream& in, Room& room) {
 	size_t bedsCount;
+	cout << "Input count of bed in room: ";
 	in >> bedsCount;
 	room.setBedsCount(bedsCount);
 	room.setId(room.maxId++);
@@ -64,6 +63,6 @@ ifstream& operator>>(ifstream& in, Room& room) {
 	in.read((char*)&bedsCount, sizeof(bedsCount));
 	room.setBedsCount(bedsCount);
 	room.setId(roomId);
-	room.maxId = room.maxId < roomId ? roomId : room.maxId;
+	room.maxId = room.maxId < roomId ? roomId : room.maxId + 1;
 	return in;
 }
