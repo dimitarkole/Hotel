@@ -76,6 +76,18 @@ Reservation& ReservationsService::operator[](const size_t index) {
 	return reservations[index];
 }
 
+bool ReservationsService::isRoomExsisting(const size_t roomId, const Room* rooms, const size_t roomsCount) const {
+	for (size_t i = 0; i < roomsCount; i++)
+	{
+		if (rooms[i].getId() == roomId)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool ReservationsService::isRoomFree(const size_t roomId, const Date& date) const {
 	for (size_t i = 0; i < reservationsCount; i++)
 	{

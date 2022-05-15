@@ -1,6 +1,7 @@
 #pragma once
 #pragma warning(disable:4996)
 
+#include "Room.h"
 #include "ReservationsService.h"
 #include "RoomsService.h"
 #include "RoomsController.h"
@@ -26,7 +27,7 @@ public:
 	const Reservation* getReservations() const;
 	const size_t getReservationsCount() const;
 
-	void readFromConsole(const CloseRoom* closedRooms, const size_t closedRoomsCount);
+	void readFromConsole(const Room* rooms, const size_t roomsCount, const CloseRoom* closedRooms, const size_t closedRoomsCount);
 	void writeToFile() const;
 	void writeToConsole() const;
 	void writeToFileReservetedRoomsInPeriod() const;

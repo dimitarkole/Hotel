@@ -37,11 +37,14 @@ const size_t ReservationsController::getReservationsCount() const {
 	return reservationsService.getReservationsCount();
 }
 
-void ReservationsController::readFromConsole(const CloseRoom* closedRooms, const size_t closedRoomsCount) {
+void ReservationsController::readFromConsole(const Room* rooms, const size_t roomsCount, const CloseRoom* closedRooms, const size_t closedRoomsCount) {
 	Reservation reservation;
 	do {
 		cout << "Input reservation data:" << endl;
 		cin >> reservation;
+		if (!reservationsService.isRoomExsisting(reservation.getRoomId(), rooms, roomsCount)) {
+			cout << "This room is not exsisting!" << endl;
+		}
 		if (!reservationsService.isRoomFree(reservation.getRoomId(), reservation.getPeriod()))
 		{
 			cout << "This room is reservated in this period!" << endl;
@@ -201,7 +204,7 @@ void ReservationsController::removeClosedRooms(const Room* freeRooms, size_t& fr
 	for (size_t i = 0; i < freeRoomsCount; i++)
 	{
 		size_t freeRoomId = freeRooms[i].getId();
-		cout << "freeRoomId = " << freeRoomId << endl;
+		//cout << "freeRoomId = " << freeRoomId << endl;
 		if (isRoomClosed(freeRoomId, period, closedRooms, closedRoomsCount))
 		{
 			cout << "Room is closed " << freeRooms[i];

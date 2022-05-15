@@ -139,15 +139,31 @@ bool CloseRoomsService::isRoomClosed(size_t roomId, const Period& period) const 
 	{
 		if (closeRooms[i].getRoomId() == roomId)
 		{
-			if ((closeRooms[i].getPeriod().getFrom() > from && to <= closeRooms[i].getPeriod().getTo())
-				|| (from < closeRooms[i].getPeriod().getFrom() && closeRooms[i].getPeriod().getTo() < to))
+			const Date& closeFrom = closeRooms[i].getPeriod().getFrom();
+			const Date& closeTo = closeRooms[i].getPeriod().getTo();
+			if ((closeFrom > from && from <= closeTo)
+				|| (closeFrom > to && to <= closeTo)
+				|| (from <= closeFrom && closeFrom < to)
+				|| (from <= closeTo && closeTo < to))
 			{
-				return false;
+				return true;
 			}
 		}
 	}
 
-	return true;
+	return false;
+}
+
+bool CloseRoomsService::isRoomExsisting(const size_t roomId, const Room* rooms, const size_t roomsCount) const {
+	for (size_t i = 0; i < roomsCount; i++)
+	{
+		if (rooms[i].getId() == roomId)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void CloseRoomsService::create(const CloseRoom& reservation) {
@@ -204,7 +220,8 @@ ofstream& operator<<(ofstream& out, const CloseRoomsService& closeRoomsService) 
 }*/
 
 ifstream& operator>>(ifstream& in, CloseRoomsService& closeRoomsService) {
-	size_t closeRoomsCount;
+	size_t closeRoomsCount = 0;
+	cout << "closeRoomsCount:" << closeRoomsCount;
 	in.read((char*)&closeRoomsCount, sizeof(closeRoomsCount));
 	for (size_t i = 0; i < closeRoomsCount; i++)
 	{

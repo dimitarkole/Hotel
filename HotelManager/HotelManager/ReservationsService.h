@@ -1,6 +1,7 @@
 #pragma once
 #pragma warning(disable:4996)
 #include<iostream>
+#include "Room.h"
 #include "Reservation.h"
 using namespace std;
 class ReservationsService
@@ -24,7 +25,7 @@ public:
 	const size_t getReservationsCount() const;
 	void remove(const size_t reservationId);
 
-
+	bool isRoomExsisting(const size_t roomId,const Room* rooms, const size_t roomsCount) const;
 	bool isRoomFree(const size_t roomId, const Date& date) const;
 	bool isRoomFree(const size_t roomId, const Period& period) const;
 	void create(const Reservation& reservation);

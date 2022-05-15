@@ -1,6 +1,7 @@
 #pragma once
 #pragma warning(disable:4996)
 #include<iostream>
+#include "Room.h"
 #include "CloseRoom.h"
 #include "Date.h"
 #include "Reservation.h"
@@ -27,6 +28,7 @@ public:
 	const size_t getCapacity() const;
 	const size_t getCloseRoomsCount() const;
 
+	bool isRoomExsisting(const size_t roomId, const Room* rooms, const size_t roomsCount) const;
 	bool isRoomClosed(size_t roomId, const Date& date) const;
 	bool isRoomClosed(size_t roomId, const Period& period) const;
 	void create(const CloseRoom& closeRoom);
