@@ -21,7 +21,6 @@ void CloseRoomsController::readFromFile() {
 	try
 	{
 		file >> closeRoomsService;
-		cout << "Here";
 		file.close();
 	}
 	catch (const std::exception&)
@@ -29,9 +28,24 @@ void CloseRoomsController::readFromFile() {
 	}
 }
 
-void CloseRoomsController::readFromConsole() {
-	cin >> closeRoomsService;
+void CloseRoomsController::readFromConsole(const Reservation* reservations, const size_t reservationsCount) {
+	CloseRoom closeRoom;
+	do {
+		cin >> closeRoom;
+		if (closeRoomsService.isRoomClosed(closeRoom.getRoomId(), closeRoom.getPeriod()))
+		{
+			cout << "This room is closed in period" << endl;
+		}
+		if (!closeRoomsService.isRoomFree(closeRoom.getRoomId(), closeRoom.getPeriod(), reservations, reservationsCount))
+		{
+			cout << "This room is reservated in this period!" << endl;
+			cout << closeRoomsService.isRoomFree(closeRoom.getRoomId(), closeRoom.getPeriod(), reservations, reservationsCount) << endl;
+		}
+	} while (true);
+
+	closeRoomsService.create(closeRoom);
 }
+
 
 void CloseRoomsController::writeToFile() const {
 	ofstream file(CLOSED_ROOMS_FILE_NAME, ios::binary);
@@ -51,4 +65,12 @@ void CloseRoomsController::writeToFile() const {
 
 void CloseRoomsController::writeToConsole() const {
 	cout << closeRoomsService;
+}
+
+const CloseRoom* CloseRoomsController::getClosedRooms() const {
+	return closeRoomsService.getCloseRooms();
+}
+
+const size_t CloseRoomsController::getClosedRoomsCount() const {
+	return closeRoomsService.getCloseRoomsCount();
 }

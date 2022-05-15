@@ -75,6 +75,9 @@
     <ClCompile Include="Period.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Date.h">
@@ -113,17 +116,14 @@
     <ClInclude Include="Period.h">
       <Filter>Header Files\Models</Filter>
     </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Data\rooms.dat">
-      <Filter>Data</Filter>
-    </None>
-    <None Include="Data\closedRooms.dat">
-      <Filter>Data</Filter>
-    </None>
-    <None Include="Data\reservations.dat">
-      <Filter>Data</Filter>
-    </None>
+    <None Include="Data\closedRooms.dat" />
+    <None Include="Data\reservations.dat" />
+    <None Include="Data\rooms.dat" />
   </ItemGroup>
 </Project>

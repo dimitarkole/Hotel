@@ -32,7 +32,6 @@ Reservation::Reservation() {
 	this->period = Period();
 	this->roomId = 0;
 	setGostName("");
-	setId(maxId++);
 	setDescription("");
 }
 
@@ -42,7 +41,6 @@ Reservation::Reservation(size_t roomId, const Period& period, char* gostName, ch
 	this->period = period;
 	this->roomId = roomId;
 	setGostName(gostName);
-	setId(maxId++);
 	setDescription(description);
 }
 
@@ -126,10 +124,19 @@ const size_t Reservation::getDescriptionLen() const {
 	return descriptionLen;
 }
 
+void Reservation::saveToTextFile(ofstream& out) const {
+	out << "id: " << id;
+	out << " room id: " << roomId;
+	out << " gost name: " << gostName;
+	period.saveToFile(out);
+	out << " description: ";
+	out << description;
+}
+
 ostream& operator<<(ostream& out, const Reservation& reservation) {
 	out << "id: " << reservation.id;
 	out << " room id: " << reservation.roomId;
-	out << " gost name:" << reservation.gostName;
+	out << " gost name: " << reservation.gostName;
 	out << reservation.period;
 	out << " description: ";
 	out << reservation.description;

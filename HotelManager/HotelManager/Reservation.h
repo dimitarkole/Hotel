@@ -35,6 +35,7 @@ public:
 	const size_t getGostNameLen() const;
 	const char* getDescription() const;
 	const size_t getDescriptionLen() const;
+	void saveToTextFile(ofstream& out) const;
 
 	friend ostream& operator<<(ostream& out, const Reservation& reservation);
 	friend ofstream& operator<<(ofstream& out, const Reservation& reservation);

@@ -76,7 +76,7 @@ Reservation& ReservationsService::operator[](const size_t index) {
 	return reservations[index];
 }
 
-bool ReservationsService::isRoomFree(size_t roomId, const Date& date) const {
+bool ReservationsService::isRoomFree(const size_t roomId, const Date& date) const {
 	for (size_t i = 0; i < reservationsCount; i++)
 	{
 		if (reservations[i].getRoomId() == roomId)
@@ -91,20 +91,22 @@ bool ReservationsService::isRoomFree(size_t roomId, const Date& date) const {
 	return true;
 }
 
-bool ReservationsService::isRoomFree(size_t roomId, const Period& period) const {
-	const Date from = period.getFrom();
-	const Date to = period.getTo();
-
+bool ReservationsService::isRoomFree(const size_t roomId, const Period& period) const {
+	const Date& from = period.getFrom();
+	const Date& to = period.getTo();
 	for (size_t i = 0; i < reservationsCount; i++)
 	{
 		if (reservations[i].getRoomId() == roomId)
 		{
-			 if ((reservations[i].getPeriod().getFrom() < to && to <= reservations[i].getPeriod().getTo())
-				|| (reservations[i].getPeriod().getFrom() <= from && from < reservations[i].getPeriod().getTo()))
+			const Date& reservationFrom = reservations[i].getPeriod().getFrom();
+			const Date& reservationTo = reservations[i].getPeriod().getTo();
+			if((reservationFrom > from && from <= reservationTo)
+				|| (reservationFrom > to && to <= reservationTo)
+				|| (from <= reservationFrom && reservationFrom < to)
+				|| (from <= reservationTo && reservationTo < to))
 			{
 				return false;
 			}
-			
 		}
 	}
 
@@ -186,18 +188,39 @@ ofstream& operator<<(ofstream& out, const ReservationsService& reservationsServi
 	return out;
 }
 
-istream& operator>>(istream& in, ReservationsService& reservationsService) {
+void  ReservationsService::saveToTextFile(ofstream& out) const {
+	size_t reservationsCount = getReservationsCount();
+	out << "Reservations count: " << reservationsCount << endl;
+	for (size_t i = 0; i < reservationsCount; i++)
+	{
+		this[i].saveToTextFile(out);
+		out << endl;
+	}
+}
+
+
+/*istream& operator>>(istream& in, ReservationsService& reservationsService) {
 	// size_t reservationsCount;
 	// cout << "Input reservations count:" << endl;
 	// in >> reservationsCount;
 	// for (size_t i = 0; i < reservationsCount; i++)
 	// {
-		Reservation reservation;
+	Reservation reservation;
+	bool isCurrect = false;
+	do
+	{
 		in >> reservation;
-		reservationsService.create(reservation);
-	// }
+		isCurrect = reservationsService.isRoomFree(reservation.getRoomId(), reservation.getPeriod());
+		if(!isCurrect) // TO Do : room may be closed???
+		{
+			cout << "This room is not free on period!" << endl;
+		}
+	} while (!isCurrect);
+
+	reservationsService.create(reservation);
+	cout << "Successful created reservation!" << endl;
 	return in;
-}
+}*/
 
 ifstream& operator>>(ifstream& in, ReservationsService& reservationsService) {
 	size_t reservationsCount;
@@ -212,7 +235,7 @@ ifstream& operator>>(ifstream& in, ReservationsService& reservationsService) {
 	return in;
 }
 
-void ReservationsService::remove(size_t reservationId) {
+void ReservationsService::remove(const size_t reservationId) {
 	size_t reservationIndex = 0;
 	for (size_t i = 0; i < reservationsCount - 1; i++)
 	{

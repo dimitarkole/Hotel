@@ -16,9 +16,9 @@ void RoomsController::readFromFile() {
 		return;
 	}
 
-	file >> roomsService;
 	try
 	{
+		file >> roomsService;
 		file.close();
 	}
 	catch (const std::exception&)
@@ -27,7 +27,9 @@ void RoomsController::readFromFile() {
 }
 
 void RoomsController::readFromConsole() {
-	cin >> roomsService;
+	Room room;
+	cin >> room;
+	roomsService.create(room);
 }
 
 void RoomsController::writeToFile() const {
@@ -36,9 +38,9 @@ void RoomsController::writeToFile() const {
 		return;
 	}
 
-	file << roomsService;
 	try
 	{
+		file << roomsService;
 		file.close();
 	}
 	catch (const std::exception&)

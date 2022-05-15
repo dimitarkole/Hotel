@@ -144,6 +144,7 @@
     <ClCompile Include="CloseRoomsController.cpp" />
     <ClCompile Include="CloseRoomsService.cpp" />
     <ClCompile Include="Date.cpp" />
+    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="HotelManager.cpp" />
     <ClCompile Include="Period.cpp" />
     <ClCompile Include="Reservation.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="CloseRoomsController.h" />
     <ClInclude Include="CloseRoomsService.h" />
     <ClInclude Include="Date.h" />
+    <ClInclude Include="Engine.h" />
     <ClInclude Include="Period.h" />
     <ClInclude Include="Reservation.h" />
     <ClInclude Include="ReservationsController.h" />
